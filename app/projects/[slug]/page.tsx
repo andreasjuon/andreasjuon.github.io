@@ -1,5 +1,6 @@
 import { notFound } from 'next/navigation'
 import { getAllSlugs, getContentBySlug } from '@/lib/content'
+import PageContainer from '@/components/PageContainer'
 import ContentDetail from '@/components/ContentDetail'
 import type { Metadata } from 'next'
 
@@ -40,10 +41,8 @@ export default function ProjectDetailPage({ params }: PageProps) {
   }
 
   return (
-    <main className="min-h-screen bg-primary-light">
-      <div className="max-w-4xl mx-auto px-4 py-8 md:py-12">
-        <ContentDetail type="project" slug={params.slug} />
-      </div>
-    </main>
+    <PageContainer>
+      <ContentDetail type="project" slug={params.slug} />
+    </PageContainer>
   )
 }

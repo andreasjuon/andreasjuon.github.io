@@ -1,9 +1,10 @@
-import { getContentBySlug, getRelatedItems, typeToUrlSegment } from '@/lib/content'
+import { getContentBySlug, getRelatedItems, getPublicationsByProject, typeToUrlSegment } from '@/lib/content'
 import { ContentType } from '@/lib/types'
 import { getExternalLinkIcon } from '@/lib/icons'
 import Image from 'next/image'
 import Link from 'next/link'
 import ContentTile from './ContentTile'
+import PublicationListByType from './PublicationListByType'
 import { MDXRemote } from 'next-mdx-remote/rsc'
 
 interface ContentDetailProps {
@@ -44,7 +45,18 @@ export default function ContentDetail({ type, slug }: ContentDetailProps) {
 
           {/* Metadata */}
           <div className="flex flex-wrap items-center gap-4 mb-4">
-            {item.date && (
+            {type === 'publication' && (() => {
+              const pub = item as { authors?: string[]; year?: string; status?: string; date?: string }
+              const statusLabels: Record<string, string> = { forthcoming: 'Forthcoming', 'under-review': 'Under review', 'first-draft': 'First draft', 'in-preparation': 'In preparation' }
+              const yearOrStatus = pub.year || (pub.status ? statusLabels[pub.status] || pub.status : null) || (pub.date ? new Date(pub.date).getFullYear().toString() : null)
+              return (pub.authors?.length || yearOrStatus) ? (
+                <>
+                  {pub.authors && pub.authors.length > 0 && <span className="text-sm text-gray-600">{pub.authors.join(', ')}</span>}
+                  {yearOrStatus && <span className="text-sm text-gray-600">{yearOrStatus}</span>}
+                </>
+              ) : null
+            })()}
+            {type !== 'publication' && item.date && (
               <span className="text-sm text-gray-600">
                 {new Date(item.date).toLocaleDateString('en-US', {
                   year: 'numeric',
@@ -67,25 +79,41 @@ export default function ContentDetail({ type, slug }: ContentDetailProps) {
             )}
           </div>
 
-          {/* External Links */}
-          {item.externalLinks && Object.keys(item.externalLinks).length > 0 && (
-            <div className="flex flex-wrap gap-4">
-              {Object.entries(item.externalLinks).map(([key, url]) => (
-                url && (
-                  <a
-                    key={key}
-                    href={url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex items-center gap-2 px-4 py-2 bg-gray-100 hover:bg-gray-200 rounded-lg transition-colors text-gray-700"
-                  >
-                    {getExternalLinkIcon(key)}
-                    <span className="capitalize">{key}</span>
-                  </a>
-                )
-              ))}
-            </div>
-          )}
+          {/* External Links - for publications use publicationLinks (subtle); else externalLinks */}
+          {(() => {
+            const pubItem = item as { publicationLinks?: Record<string, string>; externalLinks?: Record<string, string> }
+            const links = pubItem.publicationLinks
+              ? Object.entries(pubItem.publicationLinks).filter(([, v]) => v)
+              : item.externalLinks
+                ? Object.entries(item.externalLinks).filter(([, v]) => v)
+                : []
+            if (links.length === 0) return null
+            const isPublication = type === 'publication'
+            const linkLabels: Record<string, string> = { description: 'Description', pdf: 'PDF', supplementary: 'Supplementary', doi: 'DOI' }
+            return (
+              <div className={`flex flex-wrap gap-4 ${isPublication ? 'pt-2' : ''}`}>
+                {links.map(([key, url]) => {
+                  const isDescription = key === 'description'
+                  const href = isDescription ? (url || `/${typeToUrlSegment[type]}/${slug}`) : url
+                  const isExternal = !isDescription || (url && (url.startsWith('http://') || url.startsWith('https://')))
+                  return (
+                    <a
+                      key={key}
+                      href={href}
+                      target={isExternal ? '_blank' : undefined}
+                      rel={isExternal ? 'noopener noreferrer' : undefined}
+                      className={`flex items-center gap-2 transition-colors text-gray-600 hover:text-gray-900 ${
+                        isPublication ? 'text-sm' : 'px-4 py-2 bg-gray-100 hover:bg-gray-200 rounded-lg'
+                      }`}
+                    >
+                      {getExternalLinkIcon(key, isPublication ? 'w-4 h-4' : 'w-5 h-5')}
+                      <span>{linkLabels[key] || key.charAt(0).toUpperCase() + key.slice(1)}</span>
+                    </a>
+                  )
+                })}
+              </div>
+            )
+          })()}
         </div>
       </div>
 
@@ -97,6 +125,18 @@ export default function ContentDetail({ type, slug }: ContentDetailProps) {
           </div>
         </div>
       )}
+
+      {/* Project-specific: Publications linked to this project */}
+      {type === 'project' && (() => {
+        const projectPublications = getPublicationsByProject(slug)
+        if (projectPublications.length === 0) return null
+        return (
+          <div className="mb-8">
+            <h2 className="text-2xl font-semibold text-gray-900 mb-6">Publications</h2>
+            <PublicationListByType publications={projectPublications} />
+          </div>
+        )
+      })()}
 
       {/* Related Items */}
       {relatedItems.length > 0 && (

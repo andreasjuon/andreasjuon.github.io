@@ -1,8 +1,9 @@
 import { getAllContentItems } from '@/lib/content'
 import { siteConfig } from '@/lib/siteConfig'
+import PageContainer from '@/components/PageContainer'
 import AboutBlock from '@/components/AboutBlock'
 import ContentCarousel from '@/components/ContentCarousel'
-import CTASection from '@/components/CTASection'
+import RecentUpdatesPanel from '@/components/RecentUpdatesPanel'
 import SocialLinks from '@/components/SocialLinks'
 
 export default function Home() {
@@ -11,35 +12,26 @@ export default function Home() {
   const portfolioItems = allItems.slice(0, 6)
 
   return (
-    <main className="min-h-screen bg-primary-light">
-      <div className="max-w-7xl mx-auto px-4 py-8 md:py-12">
-        {/* CTA Section - Above the fold */}
-        <div className="mb-12">
-          <CTASection />
-        </div>
-
-        {/* Main Content Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-4 gap-8 mb-12">
+    <PageContainer>
+        {/* Main Content Grid - About Block and Recent Updates, equal height, height-capped so Featured Work stays visible */}
+        <div className="grid grid-cols-1 lg:grid-cols-4 gap-8 mb-6 items-stretch">
           {/* Left Column - About Block */}
-          <div className="lg:col-span-3">
-            <AboutBlock />
+          <div className="lg:col-span-3 min-h-[200px] max-h-[50vh] md:max-h-[35vh]">
+            <AboutBlock
+              description="I specialize in quantitative research on political institutions, conflict, and democratic stability. My work combines data science with political science to investigate power-sharing arrangements and their effects on political outcomes."
+            />
           </div>
 
-          {/* Right Sidebar - Recent News/Blog (optional) */}
-          <div className="lg:col-span-1">
-            <div className="bg-white rounded-lg shadow-card p-6">
-              <h3 className="text-lg font-semibold text-gray-900 mb-4">Recent Updates</h3>
-              <p className="text-sm text-gray-600">
-                News and updates will appear here.
-              </p>
-            </div>
+          {/* Right Sidebar - Recent Updates (scrollable) */}
+          <div className="lg:col-span-1 min-h-[200px] max-h-[40vh] md:max-h-[35vh]">
+            <RecentUpdatesPanel limit={10} />
           </div>
         </div>
 
         {/* Portfolio Carousel */}
         {portfolioItems.length > 0 && (
-          <div className="mb-12">
-            <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-6">Featured Work</h2>
+          <div className="mb-6">
+            <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-4">Featured Work</h2>
             <ContentCarousel items={portfolioItems} itemsPerView={3} />
           </div>
         )}
@@ -68,7 +60,6 @@ export default function Home() {
             />
           </div>
         </div>
-      </div>
-    </main>
+    </PageContainer>
   )
 }

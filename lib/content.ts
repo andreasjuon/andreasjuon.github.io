@@ -1,11 +1,14 @@
 import fs from 'fs'
 import path from 'path'
 import matter from 'gray-matter'
-import { ContentItem, ContentType, ContentFrontmatterSchema } from './types'
+import { ContentItem, ContentType, ContentFrontmatterSchema, PublicationItem, PublicationType } from './types'
 import { typeToUrlSegment } from './contentPaths'
 
 // Re-export for server-side consumers (sitemap, ContentDetail, etc.)
 export { typeToUrlSegment, getContentHref } from './contentPaths'
+
+/** Display order for publication types on Research page */
+const PUBLICATION_TYPE_ORDER: PublicationType[] = ['book', 'peer-reviewed', 'book-chapter', 'in-progress']
 
 const contentDirectory = path.join(process.cwd(), 'content')
 
@@ -131,4 +134,37 @@ export function getAllSlugs(type: ContentType): string[] {
   return files
     .filter((filename) => filename.match(/\.mdx?$/))
     .map((filename) => getSlugFromFilename(filename))
+}
+
+/** Publications linked to a specific project (by relatedProjects or relatedItems for backward compat) */
+export function getPublicationsByProject(projectSlug: string): PublicationItem[] {
+  const publications = getContentByType('publication') as PublicationItem[]
+  return publications.filter((p) => {
+    if (p.relatedProjects?.includes(projectSlug)) return true
+    if (p.relatedItems?.includes(projectSlug)) return true
+    return false
+  })
+}
+
+/** Publications grouped by type in display order. Empty groups omitted from keys. */
+export function getPublicationsGroupedByType(): Partial<Record<PublicationType, PublicationItem[]>> {
+  const publications = getContentByType('publication') as PublicationItem[]
+  const grouped: Partial<Record<PublicationType, PublicationItem[]>> = {}
+
+  for (const type of PUBLICATION_TYPE_ORDER) {
+    const items = publications.filter(
+      (p) => (p.publicationType || 'in-progress') === type
+    )
+    if (items.length > 0) {
+      grouped[type] = items
+    }
+  }
+
+  // Items without publicationType go to 'in-progress'
+  const untyped = publications.filter((p) => !p.publicationType)
+  if (untyped.length > 0) {
+    grouped['in-progress'] = [...(grouped['in-progress'] || []), ...untyped]
+  }
+
+  return grouped
 }

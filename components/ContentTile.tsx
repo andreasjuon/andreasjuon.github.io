@@ -17,10 +17,10 @@ export default function ContentTile({ item, aspectRatio = '16/9' }: ContentTileP
   const href = getContentHref(item.type, item.slug)
 
   return (
-    <div className="block group relative">
-      <Link href={href} className="block">
+    <div className="block group relative h-full">
+      <Link href={href} className="block h-full">
         <div
-          className="bg-white rounded-lg overflow-hidden shadow-card hover:shadow-card-hover transition-shadow duration-300 border-l-4"
+          className="bg-white rounded-lg overflow-hidden shadow-card hover:shadow-card-hover transition-shadow duration-300 border-l-4 h-full flex flex-col"
           style={{ borderLeftColor: typeColor }}
         >
           <div className="relative w-full" style={{ aspectRatio }}>
@@ -33,7 +33,7 @@ export default function ContentTile({ item, aspectRatio = '16/9' }: ContentTileP
               priority={false}
             />
           </div>
-          <div className="p-4">
+          <div className="p-4 flex flex-col flex-1">
             <div className="flex items-start justify-between mb-2">
               <h3 className="text-lg font-semibold text-gray-900 group-hover:text-gray-700 transition-colors">
                 {item.title}
@@ -41,7 +41,7 @@ export default function ContentTile({ item, aspectRatio = '16/9' }: ContentTileP
             </div>
             <p className="text-sm text-gray-600 line-clamp-2">{item.summary}</p>
             {item.tags && item.tags.length > 0 && (
-              <div className="flex flex-wrap gap-1 mt-2">
+              <div className="flex flex-wrap gap-1 mt-2 mt-auto">
                 {item.tags.slice(0, 3).map((tag) => (
                   <span
                     key={tag}
