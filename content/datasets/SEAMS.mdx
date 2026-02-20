@@ -3,7 +3,7 @@ title: "SEAMS"
 type: dataset
 summary: "Comprehensive standardized survey data."
 tags: ["attitudes", "institutions", "data"]
-previewImage: "/images/projects_power_sharing.jpg"
+previewImage: "/images/data/seams_star.png"
 date: "2023-01-10"
 externalLinks:
   data: "https://example.com/dataset"
@@ -11,27 +11,59 @@ externalLinks:
 relatedItems: ["power-sharing"]
 ---
 
-# SEAMS database
+# Purpose of SEAMS
 
-Comprehensive standardized survey data.
+The Standardized Ethnically-Attributed Mass Surveys (SEAMS) database has two main purposes: 
+*	First, it provides standardized cross-national information for major public opinion concepts, based on comparable survey items from numerous global and regional mass surveys (cf. figure 1). Thereby, SEAMS enables researchers to study cross-national relationships between citizens' socio-political attitudes and time-varying outcomes at the country-level. For instance, SEAMS (v1.0) assembles information on respondents' satisfaction with and trust in governing institutions from 90 unique survey waves, which together cover a total of 1284 country years. This enables researchers to examine how time-variant country-level characteristics, such as economic growth or political institutions, affect citizens' satisfaction with the government. Vice-versa, it also enables researchers to test the consequences of citizens' aggregate attitudes on country-level outcomes, for instance how citizens' average satisfaction with the government affects the stability of political institutions or the risk of major social conflict.
+*	Second, SEAMS also provides systematic information on respondents' ethnicity, region of residence, language, religion, and phenotype. This information is connected to major existing datasets, such as the Ethnic Power Relations Dataset (EPR, Vogt et al. 2015), the Constitutional Power-Sharing Dataset (CPSD, Juon 2020), EPR-Ethnic Dimensions (EPR-ED, Vogt et al. 2015), and to standardized lists of administrative regions from the Federal Information Processing Standard (FIPS) PUB 10-4. Thereby, SEAMS enables researchers to conduct even more fine-grained, subnational analyses. For instance, they might examine how the representation of ethnic minority representatives, religious and linguistic rights, or regional autonomy shapes affected citizens' satisfaction with the government (cf. Juon 2023 for an example).
 
-## Description
+<figure style={{width: '300px', maxWidth: '100%', float: 'left', marginRight: '1rem', marginTop: '1rem', marginBottom: '1rem'}}>
+  <img src="/images/data/seams_star.png" alt="All surveys included in SEAMS." style={{width: '100%', height: 'auto', borderRadius: '0.5rem'}} />
+  <figcaption style={{fontSize: '0.875rem', color: '#4B5563', marginTop: '0.5rem'}}>Figure 1: All surveys included in SEAMS.</figcaption>
+</figure>
 
-This dataset includes information on various types of power-sharing institutions, including:
+Researchers can connect SEAMS to their data in two main ways. First, if their interest is in SEAMS' standardized attitudinal variables, they can merge additional country- or group-level information to SEAMS using each respondent's country, ethnic, region, language, religion, and phenotype IDs. Conversely, if their interest is in identifying the ethnicity of respondents in a given survey (wave), they can merge SEAMS to the original survey data of interest using SEAMS' respondent ID variable.  
 
-- Executive power-sharing
-- Legislative power-sharing
-- Territorial power-sharing
-- Electoral power-sharing
+The current version of SEAMS integrates information from 98 unique survey waves, which together cover 2'071'315 respondents nested in 1372 country years and 148 countries. It contains information on respondents' (dis-)satisfaction with the government, perceptions of belonging to a discriminated group, vote intentions, generalized trust, political interest, and ethnic self-identification. SEAMS also contains demographic variables, which currently cover information on respondents' gender, age, education level, and urban areas of residence.
 
-## Coverage
+Future releases are planned, which aim to expand SEAMS in three ways. First, they will include additional standardized variables, including information on respondents' respondents' left-right orientation and their willingness to engage in contentious action (including protest). Second, more surveys will be added, including the most recent waves of all survey projects presently covered by SEAMS. Finally, future releases will provide more fine-grained information on the heterogeneous original question items used to construct SEAMS' standardized variables, which can be used to construct more explicit measurement models of these attitudes (cf. Claassen 2019).
 
-The dataset covers [X] countries over [Y] years, providing a comprehensive view of power-sharing arrangements globally.
+# Coverage
 
-## Usage
+<figure style={{width: '500px', maxWidth: '100%', float: 'right', marginLeft: '1rem', marginTop: '1rem', marginBottom: '1rem'}}>
+  <img src="/images/data/seams_coverage_map.png" alt="SEAMS coverage map" style={{width: '100%', height: 'auto', borderRadius: '0.5rem'}} />
+  <figcaption style={{fontSize: '0.875rem', color: '#4B5563', marginTop: '0.5rem'}}>Figure 2: SEAMS coverage - Map of covered countries and number of integrated survey rounds per country.</figcaption>
+</figure>
 
-This dataset is suitable for quantitative analysis of power-sharing institutions and their effects on political outcomes.
+SEAMS aims to comprehensively cover two types of surveys projects: 
+*	First, large global mass surveys, including the World Values Surveys (Inglehart et al. 2014), the European Values Survey (EVS 2020), the International Social Survey Programme (ISSP) National Identity modules (ISSP Research Group 2010-2015), augmented by its spin-off, the China Survey (Harmel & Yeh 2015),  and the Comparative National Elections Project (CNEP).  
+*	Second, a series of mass surveys covering specific world regions, including Africa (the Afrobarometer (cf. Afrobarometer Data 1999-2016)), the Middle East and North Africa (the Arab Barometer),  Asia (the Asia Barometer (cf. Inoguchi & Fuji 2008), Asian Barometer, South Asia Barometer,  and Eurasia Barometer),  Europe (the European Social Survey (cf. Norwegian Centre for Research Data, Norway 2002-2018), the new Baltics Barometer (cf. Rose 2010a), the New Europe Barometer (cf. Rose 2010b), and the New Russia Barometer (cf. Rose 2010c)), and Latin America (the Latinobarometro).  
 
-## Citation
+The table below gives an overview on all integrated surveys waves, including the number of countries, years, and total number of respondents contained in them. For detailed information on the sources and specific files used, see file "seams_sources.csv".
 
-If you use this dataset, please cite: [Citation information]
+**SEAMS coverage: Surveys, countries, and respondents.**
+| Survey | Waves | Years | Countries | Respondents |
+| --- | --- | --- | --- | --- |
+| Afrobarometer | 1–6 | 1999–2015 | 37 | 206,850 |
+| Arab Barometer | 1–5 | 2007–2018 | 13 | 63,345 |
+| Asia Barometer | 1–5 | 2003–2007 | 28 | 45,094 |
+| Asian Barometer | 1–4 | 2001–2015 | 13 | 60,135 |
+| China Survey | 1 | 2008–2008 | 1 | 3,989 |
+| Comparative National Elections Project | 1 | 1992–2018 | 21 | 70,456 |
+| Eurasia Barometer | 1 | 2010–2010 | 9 | 18,000 |
+| European Social Survey | 1–8 | 2002–2017 | 36 | 393,495 |
+| European Values Survey | 1–4 | 1981–2009 | 47 | 164,997 |
+| ISSP National Identity | 1–3 | 1995–2013 | 44 | 122,358 |
+| Latinobarometro | 1–21 | 1995–2018 | 19 | 431,148 |
+| New Baltics Barometer | 1–6 | 1993–2004 | 3 | 21,601 |
+| New Europe Barometer | 1–7 | 1991–2004 | 17 | 76,492 |
+| New Russia Barometer | 1–18 | 1992–2009 | 1 | 34,071 |
+| South Asian Barometer | 1–2 | 2005–2013 | 5 | 19,059 |
+| World Values Survey | 1–6 | 1981–2014 | 95 | 340,225 |
+
+
+In total, SEAMS covers 148 countries with, on average, 9.7 unique survey waves for each country. Apart from a small number of states in Africa and in the Middle East, no large countries are systematically missing. The number of unique survey waves per country ranges from 1 for several states in Central Asia up to 35 for Russia.
+
+
+ 
+

@@ -6,6 +6,7 @@ import Link from 'next/link'
 import ContentTile from './ContentTile'
 import PublicationListByType from './PublicationListByType'
 import { MDXRemote } from 'next-mdx-remote/rsc'
+import remarkGfm from 'remark-gfm'
 
 interface ContentDetailProps {
   type: ContentType
@@ -46,15 +47,27 @@ export default function ContentDetail({ type, slug }: ContentDetailProps) {
           {/* Metadata */}
           <div className="flex flex-wrap items-center gap-4 mb-4">
             {type === 'publication' && (() => {
-              const pub = item as { authors?: string[]; year?: string; status?: string; date?: string }
+              const pub = item as { authors?: string[]; year?: string; status?: string; date?: string; publisher?: string; journal?: string }
               const statusLabels: Record<string, string> = { forthcoming: 'Forthcoming', 'under-review': 'Under review', 'first-draft': 'First draft', 'in-preparation': 'In preparation' }
               const yearOrStatus = pub.year || (pub.status ? statusLabels[pub.status] || pub.status : null) || (pub.date ? new Date(pub.date).getFullYear().toString() : null)
-              return (pub.authors?.length || yearOrStatus) ? (
+              return pub.authors?.length || yearOrStatus ? (
                 <>
-                  {pub.authors && pub.authors.length > 0 && <span className="text-sm text-gray-600">{pub.authors.join(', ')}</span>}
-                  {yearOrStatus && <span className="text-sm text-gray-600">{yearOrStatus}</span>}
+                  {pub.authors && pub.authors.length > 0 && (
+                    <span className="text-sm text-gray-600">
+                      {pub.authors.join(", ")}
+                    </span>
+                  )}
+                  {yearOrStatus && (
+                    <span className="text-sm text-gray-600">
+                      {yearOrStatus}
+                    </span>
+                  )}
+                  {pub.publisher && `${pub.publisher}`}
+                  {pub.journal && (
+                    <span className="italic text-sm text-gray-600">{`${pub.journal}`}</span>
+                  )}
                 </>
-              ) : null
+              ) : null;
             })()}
             {type !== 'publication' && item.date && (
               <span className="text-sm text-gray-600">
@@ -121,7 +134,123 @@ export default function ContentDetail({ type, slug }: ContentDetailProps) {
       {item.content && (
         <div className="bg-white rounded-lg shadow-card p-8 mb-8">
           <div className="prose prose-lg max-w-none">
-            <MDXRemote source={item.content} />
+            <MDXRemote 
+              source={item.content}
+              options={{
+                mdxOptions: {
+                  remarkPlugins: [remarkGfm],
+                },
+              }}
+              components={{
+                img: (props: any) => {
+                  // Extract custom props for caption and layout
+                  const captionText = props.title || props.caption
+                  const widthAttr = props.width || '50%'
+                  const alignAttr = props.align || 'right'
+                  
+                  // Parse width attribute (supports px, %, or plain number)
+                  let widthValue = widthAttr
+                  if (/^\d+$/.test(widthAttr)) {
+                    widthValue = `${widthAttr}px`
+                  }
+
+                  // Parse alignment (left, center, right)
+                  const align = alignAttr.toLowerCase()
+
+                  // Determine wrapper classes based on alignment
+                  let wrapperClasses = 'mb-4 block'
+                  let wrapperStyle: React.CSSProperties = { width: widthValue }
+
+                  if (align === 'left') {
+                    wrapperClasses += ' float-left mr-4'
+                  } else if (align === 'center') {
+                    wrapperClasses += ' mx-auto'
+                  } else if (align === 'right') {
+                    wrapperClasses += ' float-right ml-4'
+                  }
+
+                  return (
+                    <figure className={wrapperClasses} style={wrapperStyle}>
+                      <a
+                        href={props.src}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="block"
+                      >
+                        <Image
+                          src={props.src}
+                          alt={props.alt || ''}
+                          width={800}
+                          height={600}
+                          className="rounded-lg cursor-pointer hover:opacity-90 transition-opacity"
+                          style={{ width: '100%', height: 'auto' }}
+                        />
+                      </a>
+                      {captionText && (
+                        <figcaption
+                          className={`text-sm text-gray-600 mt-2 ${align === 'center' ? 'text-center' : ''}`}
+                          style={{ width: '100%' }}
+                        >
+                          {captionText}
+                        </figcaption>
+                      )}
+                    </figure>
+                  )
+                },
+                a: (props: any) => {
+                  const href = props.href || ''
+                  const isExternal = href.startsWith('http://') || href.startsWith('https://')
+                  if (isExternal) {
+                    return <a {...props} target="_blank" rel="noopener noreferrer" />
+                  }
+                  return <Link {...props} href={href} />
+                },
+                table: (props: any) => {
+                  const { className, style, ...rest } = props
+                  return (
+                    <div className="overflow-x-auto -mt-10 mb-6">
+                      <table 
+                        {...rest} 
+                        className={`min-w-full border-collapse ${className || ''}`}
+                        style={style}
+                      />
+                    </div>
+                  )
+                },
+                thead: (props: any) => {
+                  const { className, style, ...rest } = props
+                  return <thead {...rest} className={`bg-gray-50 ${className || ''}`} style={style} />
+                },
+                tbody: (props: any) => {
+                  const { className, style, ...rest } = props
+                  return <tbody {...rest} className={className} style={style} />
+                },
+                tr: (props: any) => {
+                  const { className, style, ...rest } = props
+                  return <tr {...rest} className={`border-b border-gray-200 ${className || ''}`} style={style} />
+                },
+                th: (props: any) => {
+                  const { className, style, ...rest } = props
+                  return (
+                    <th 
+                      {...rest} 
+                      className={`text-left font-semibold text-gray-900 px-4 py-3 ${className || ''}`}
+                      style={style}
+                    />
+                  )
+                },
+                td: (props: any) => {
+                  const { className, style, ...rest } = props
+                  return (
+                    <td 
+                      {...rest} 
+                      className={`px-4 py-3 text-gray-700 ${className || ''}`}
+                      style={style}
+                    />
+                  )
+                },
+              }}
+            />
           </div>
         </div>
       )}

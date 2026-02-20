@@ -16,14 +16,14 @@ export default function Home() {
         {/* Main Content Grid - About Block and Recent Updates, equal height, height-capped so Featured Work stays visible */}
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-8 mb-6 items-stretch">
           {/* Left Column - About Block */}
-          <div className="lg:col-span-3 min-h-[200px] max-h-[50vh] md:max-h-[35vh]">
+          <div className="lg:col-span-3 min-h-[200px] lg:max-h-[350px] lg:h-full">
             <AboutBlock
               description="I specialize in quantitative research on political institutions, conflict, and democratic stability. My work combines data science with political science to investigate power-sharing arrangements and their effects on political outcomes."
             />
           </div>
 
           {/* Right Sidebar - Recent Updates (scrollable) */}
-          <div className="lg:col-span-1 min-h-[200px] max-h-[40vh] md:max-h-[35vh]">
+          <div className="lg:col-span-1 lg:h-full lg:max-h-[350px]">
             <RecentUpdatesPanel limit={10} />
           </div>
         </div>
@@ -32,7 +32,7 @@ export default function Home() {
         {portfolioItems.length > 0 && (
           <div className="mb-6">
             <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-4">Featured Work</h2>
-            <ContentCarousel items={portfolioItems} itemsPerView={3} />
+            <ContentCarousel items={portfolioItems} />
           </div>
         )}
         

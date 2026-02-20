@@ -68,12 +68,14 @@ export type ContentItem = z.infer<typeof ContentItemSchema>
 
 /** ContentItem with type=publication; includes publication-specific fields */
 export type PublicationItem = ContentItem & {
-  type: 'publication'
-  publicationType?: PublicationType
-  authors?: string[]
-  year?: string
-  status?: PublicationStatus
-  relatedProjects?: string[]
-  relatedDatasets?: string[]
-  publicationLinks?: PublicationLinks
-}
+  type: "publication";
+  publicationType?: PublicationType;
+  authors?: string[];
+  year?: string;
+  status?: PublicationStatus;
+  publisher?: string;
+  journal?: string;
+  relatedProjects?: string[];
+  relatedDatasets?: string[];
+  publicationLinks?: PublicationLinks;
+};

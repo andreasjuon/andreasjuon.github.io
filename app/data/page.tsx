@@ -19,8 +19,12 @@ export default function DataPage() {
         
         <div className={`${INTRO_FRAME_CLASS} ${SECTION_GAP}`}>
             <p className="text-lg text-gray-700">
-              Datasets are treated as first-class outputs in my work. Below you&apos;ll find datasets I&apos;ve created, 
-              curated, or contributed to, along with their relevance for research and consulting.
+              I develop globally-representative datasets and data infrastructure to support my research and consulting work. 
+              These include standardized global survey data,
+              systematic assessments of nationalist movements and their ideologies,
+              fine-grained datasets on political institutions,
+              geospatial datasets on ethnic and regional boundaries,
+              and systematic information on the ethnic identity of armed actors.
             </p>
         </div>
 

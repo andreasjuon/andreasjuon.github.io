@@ -10,6 +10,46 @@ const PUBLICATION_TYPE_LABELS: Record<PublicationType, string> = {
 
 const PUBLICATION_TYPE_ORDER: PublicationType[] = ['book', 'peer-reviewed', 'book-chapter', 'in-progress']
 
+// Lower rank means higher priority in the list
+const STATUS_RANK: Record<string, number> = {
+  forthcoming: 0,
+  'under-review': 1,
+  'first-draft': 2,
+  'in-preparation': 3,
+}
+
+const DEFAULT_STATUS_RANK = 4
+
+function getYearNumber(p: PublicationItem): number {
+  if (p.year) {
+    const n = parseInt(p.year, 10)
+    if (!Number.isNaN(n)) return n
+  }
+  if (p.date) {
+    const d = new Date(p.date)
+    if (!Number.isNaN(d.getTime())) return d.getFullYear()
+  }
+  return 0
+}
+
+function comparePublications(a: PublicationItem, b: PublicationItem): number {
+  const rankA = a.status ? STATUS_RANK[a.status] ?? DEFAULT_STATUS_RANK : DEFAULT_STATUS_RANK
+  const rankB = b.status ? STATUS_RANK[b.status] ?? DEFAULT_STATUS_RANK : DEFAULT_STATUS_RANK
+
+  if (rankA !== rankB) {
+    return rankA - rankB // lower rank first (forthcoming, then under-review, etc.)
+  }
+
+  const yearA = getYearNumber(a)
+  const yearB = getYearNumber(b)
+
+  if (yearA !== yearB) {
+    return yearB - yearA // newer first
+  }
+
+  return a.title.localeCompare(b.title)
+}
+
 interface PublicationListByTypeProps {
   publications: PublicationItem[]
   showEmptySections?: boolean
@@ -19,7 +59,11 @@ export default function PublicationListByType({ publications, showEmptySections 
   const grouped: Partial<Record<PublicationType, PublicationItem[]>> = {}
 
   for (const type of PUBLICATION_TYPE_ORDER) {
-    const items = publications.filter((p) => (p.publicationType || 'in-progress') === type)
+    const items = publications
+      .filter((p) => (p.publicationType || 'in-progress') === type)
+      .slice()
+      .sort(comparePublications)
+
     if (items.length > 0 || showEmptySections) {
       grouped[type] = items
     }
@@ -27,7 +71,9 @@ export default function PublicationListByType({ publications, showEmptySections 
 
   const untyped = publications.filter((p) => !p.publicationType)
   if (untyped.length > 0) {
-    grouped['in-progress'] = [...(grouped['in-progress'] || []), ...untyped]
+    const existing = grouped['in-progress'] || []
+    const merged = [...existing, ...untyped].sort(comparePublications)
+    grouped['in-progress'] = merged
   }
 
   return (
@@ -50,3 +96,4 @@ export default function PublicationListByType({ publications, showEmptySections 
     </div>
   )
 }
+

@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { ContentItem } from '@/lib/types'
 import ContentTile from './ContentTile'
 import { FiChevronLeft, FiChevronRight } from 'react-icons/fi'
@@ -10,9 +10,38 @@ interface ContentCarouselProps {
   itemsPerView?: number
 }
 
-export default function ContentCarousel({ items, itemsPerView = 3 }: ContentCarouselProps) {
+export default function ContentCarousel({ items, itemsPerView }: ContentCarouselProps) {
   const [startIndex, setStartIndex] = useState(0)
-  const visibleItems = itemsPerView
+  const [visibleItems, setVisibleItems] = useState(3)
+
+  useEffect(() => {
+    // Calculate responsive items per view based on screen size
+    const updateVisibleItems = () => {
+      if (itemsPerView !== undefined) {
+        // If itemsPerView is explicitly provided, use it
+        setVisibleItems(itemsPerView)
+        return
+      }
+      
+      // Otherwise, calculate based on viewport width
+      const width = window.innerWidth
+      if (width < 768) {
+        // Mobile: 1 item
+        setVisibleItems(1)
+      } else if (width < 1024) {
+        // Tablet: 2 items
+        setVisibleItems(2)
+      } else {
+        // Desktop: 3 items
+        setVisibleItems(3)
+      }
+    }
+
+    updateVisibleItems()
+    window.addEventListener('resize', updateVisibleItems)
+    return () => window.removeEventListener('resize', updateVisibleItems)
+  }, [itemsPerView])
+
   const maxIndex = Math.max(0, items.length - visibleItems)
 
   const goPrevious = () => {
@@ -49,7 +78,12 @@ export default function ContentCarousel({ items, itemsPerView = 3 }: ContentCaro
           </button>
         </>
       )}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 px-4 md:px-0">
+      <div 
+        className="grid gap-6 px-4 md:px-0"
+        style={{
+          gridTemplateColumns: `repeat(${visibleItems}, minmax(0, 1fr))`
+        }}
+      >
         {visibleItemsList.map((item) => (
           <ContentTile key={`${item.type}-${item.slug}`} item={item} />
         ))}

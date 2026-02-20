@@ -46,14 +46,27 @@ export default function PublicationListItem({ item }: PublicationListItemProps) 
               {item.title}
             </h3>
             {item.authors && item.authors.length > 0 && (
-              <p className="text-sm text-gray-600 mt-1">{item.authors.join(', ')}</p>
+              <p className="text-sm text-gray-600 mt-1">
+                {item.authors.join(", ")}
+              </p>
             )}
             {(yearOrStatus || item.date) && (
               <p className="text-xs text-gray-500 mt-1">
-                {yearOrStatus || (item.date ? new Date(item.date).getFullYear().toString() : null)}
+                {yearOrStatus ||
+                  (item.date
+                    ? new Date(item.date).getFullYear().toString()
+                    : null)}
+                {item.publisher && (
+                  `, ${item.publisher}`
+                )}
+                {item.journal && (
+                  <span className="italic">{`, ${item.journal}`}</span>
+                )}
               </p>
             )}
-            <p className="text-sm text-gray-600 mt-2 line-clamp-2">{item.summary}</p>
+            <p className="text-sm text-gray-600 mt-2 line-clamp-2">
+              {item.summary}
+            </p>
           </div>
         </div>
       </Link>
@@ -63,18 +76,18 @@ export default function PublicationListItem({ item }: PublicationListItemProps) 
             url ? (
               <a
                 key={key}
-                href={key === 'description' ? href : url}
-                target={key === 'description' ? undefined : '_blank'}
-                rel={key === 'description' ? undefined : 'noopener noreferrer'}
+                href={key === "description" ? href : url}
+                target={key === "description" ? undefined : "_blank"}
+                rel={key === "description" ? undefined : "noopener noreferrer"}
                 className="text-gray-500 hover:text-gray-900 transition-colors bg-white/90 rounded p-1.5"
                 aria-label={`${key} link`}
               >
-                {getExternalLinkIcon(key, 'w-4 h-4')}
+                {getExternalLinkIcon(key, "w-4 h-4")}
               </a>
-            ) : null
+            ) : null,
           )}
         </div>
       )}
     </div>
-  )
+  );
 }

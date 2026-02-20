@@ -32,6 +32,12 @@ export default function ContentTile({ item, aspectRatio = '16/9' }: ContentTileP
               sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
               priority={false}
             />
+            <span
+              className="absolute bottom-2 left-2 px-2 py-1 rounded text-xs font-medium text-white bg-black/60"
+              style={{ backgroundColor: typeColor }}
+            >
+              {item.type.charAt(0).toUpperCase() + item.type.slice(1)}
+            </span>
           </div>
           <div className="p-4 flex flex-col flex-1">
             <div className="flex items-start justify-between mb-2">
