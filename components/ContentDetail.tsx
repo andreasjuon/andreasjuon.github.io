@@ -7,6 +7,8 @@ import ContentTile from './ContentTile'
 import PublicationListByType from './PublicationListByType'
 import { MDXRemote } from 'next-mdx-remote/rsc'
 import remarkGfm from 'remark-gfm'
+import React from 'react'
+import Figure from './Figure'
 
 interface ContentDetailProps {
   type: ContentType
@@ -142,11 +144,13 @@ export default function ContentDetail({ type, slug }: ContentDetailProps) {
                 },
               }}
               components={{
+                Figure,
                 img: (props: any) => {
                   const { style, className, ...rest } = props
                   return (
                     <img
                       {...rest}
+                      alt={rest.alt ?? ''}
                       className={`!my-0 ${className || ''}`}
                       style={{
                         ...style,
@@ -158,23 +162,45 @@ export default function ContentDetail({ type, slug }: ContentDetailProps) {
                 },
                 figure: (props: any) => {
                   const { style, className, children, ...rest } = props
-                  
-                  // Extract float to set appropriate margins
-                  const inlineFloat = style?.float
-                  let additionalMargins = {}
-                  if (inlineFloat === 'left') {
-                    additionalMargins = { marginRight: '2rem' }
-                  } else if (inlineFloat === 'right') {
-                    additionalMargins = { marginLeft: '2rem' }
+
+                  let imgSrc: string | undefined
+                  let imgAlt: string | undefined
+                  let captionText: string | undefined
+                  React.Children.forEach(children, (child) => {
+                    if (!React.isValidElement(child)) return
+                    if (child.type === 'img') {
+                      imgSrc = (child.props as { src?: string }).src
+                      imgAlt = (child.props as { alt?: string }).alt
+                    }
+                    if (child.type === 'figcaption') {
+                      const c = (child.props as { children?: React.ReactNode }).children
+                      captionText = typeof c === 'string' ? c : undefined
+                    }
+                  })
+
+                  const canDelegate = imgSrc != null && imgAlt !== undefined
+                  if (canDelegate) {
+                    const widthMatch = typeof style?.width === 'string' && style.width.match(/^(\d+)px$/)
+                    const width = widthMatch ? parseInt(widthMatch[1], 10) : 500
+                    const align =
+                      style?.float === 'left' ? 'left' : style?.float === 'right' ? 'right' : 'center'
+                    return (
+                      <Figure
+                        src={imgSrc!}
+                        alt={imgAlt!}
+                        caption={captionText}
+                        align={align}
+                        width={width}
+                      />
+                    )
                   }
-                  
+
                   return (
                     <figure
                       {...rest}
                       className={className}
                       style={{
                         ...style,
-                        ...additionalMargins,
                         marginTop: '0',
                         marginBottom: '1rem',
                         maxWidth: '100%',
