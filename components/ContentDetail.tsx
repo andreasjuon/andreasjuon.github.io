@@ -143,58 +143,60 @@ export default function ContentDetail({ type, slug }: ContentDetailProps) {
               }}
               components={{
                 img: (props: any) => {
-                  // Extract custom props for caption and layout
-                  const captionText = props.title || props.caption
-                  const widthAttr = props.width || '50%'
-                  const alignAttr = props.align || 'right'
-                  
-                  // Parse width attribute (supports px, %, or plain number)
-                  let widthValue = widthAttr
-                  if (/^\d+$/.test(widthAttr)) {
-                    widthValue = `${widthAttr}px`
-                  }
-
-                  // Parse alignment (left, center, right)
-                  const align = alignAttr.toLowerCase()
-
-                  // Determine wrapper classes based on alignment
-                  let wrapperClasses = 'mb-4 block'
-                  let wrapperStyle: React.CSSProperties = { width: widthValue }
-
-                  if (align === 'left') {
-                    wrapperClasses += ' float-left mr-4'
-                  } else if (align === 'center') {
-                    wrapperClasses += ' mx-auto'
-                  } else if (align === 'right') {
-                    wrapperClasses += ' float-right ml-4'
-                  }
-
+                  const { style, className, ...rest } = props
                   return (
-                    <figure className={wrapperClasses} style={wrapperStyle}>
-                      <a
-                        href={props.src}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="block"
-                      >
-                        <Image
-                          src={props.src}
-                          alt={props.alt || ''}
-                          width={800}
-                          height={600}
-                          className="rounded-lg cursor-pointer hover:opacity-90 transition-opacity"
-                          style={{ width: '100%', height: 'auto' }}
-                        />
-                      </a>
-                      {captionText && (
-                        <figcaption
-                          className={`text-sm text-gray-600 mt-2 ${align === 'center' ? 'text-center' : ''}`}
-                          style={{ width: '100%' }}
-                        >
-                          {captionText}
-                        </figcaption>
-                      )}
+                    <img
+                      {...rest}
+                      className={`!my-0 ${className || ''}`}
+                      style={{
+                        ...style,
+                        width: '100%',
+                        height: 'auto',
+                      }}
+                    />
+                  )
+                },
+                figure: (props: any) => {
+                  const { style, className, children, ...rest } = props
+                  
+                  // Extract float to set appropriate margins
+                  const inlineFloat = style?.float
+                  let additionalMargins = {}
+                  if (inlineFloat === 'left') {
+                    additionalMargins = { marginRight: '2rem' }
+                  } else if (inlineFloat === 'right') {
+                    additionalMargins = { marginLeft: '2rem' }
+                  }
+                  
+                  return (
+                    <figure
+                      {...rest}
+                      className={className}
+                      style={{
+                        ...style,
+                        ...additionalMargins,
+                        marginTop: '0',
+                        marginBottom: '1rem',
+                        maxWidth: '100%',
+                      }}
+                    >
+                      {children}
                     </figure>
+                  )
+                },
+                figcaption: (props: any) => {
+                  const { style, className, ...rest } = props
+                  return (
+                    <figcaption
+                      {...rest}
+                      className={className}
+                      style={{
+                        fontSize: '0.875rem',
+                        color: '#4B5563',
+                        marginTop: '0.5rem',
+                        ...style
+                      }}
+                    />
                   )
                 },
                 a: (props: any) => {
