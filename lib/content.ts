@@ -5,7 +5,7 @@ import { ContentItem, ContentType, ContentFrontmatterSchema, PublicationItem, Pu
 import { typeToUrlSegment } from './contentPaths'
 
 // Re-export for server-side consumers (sitemap, ContentDetail, etc.)
-export { typeToUrlSegment, getContentHref } from './contentPaths'
+export { typeToUrlSegment, typeToListPath, getContentHref } from './contentPaths'
 
 /** Display order for publication types on Research page */
 const PUBLICATION_TYPE_ORDER: PublicationType[] = ['book', 'peer-reviewed', 'book-chapter', 'in-progress']

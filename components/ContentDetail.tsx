@@ -1,4 +1,4 @@
-import { getContentBySlug, getRelatedItems, getPublicationsByProject, typeToUrlSegment } from '@/lib/content'
+import { getContentBySlug, getRelatedItems, getPublicationsByProject, typeToUrlSegment, typeToListPath } from '@/lib/content'
 import { ContentType } from '@/lib/types'
 import { getExternalLinkIcon } from '@/lib/icons'
 import Image from 'next/image'
@@ -310,7 +310,7 @@ export default function ContentDetail({ type, slug }: ContentDetailProps) {
       {/* Back Link */}
       <div className="text-center">
         <Link
-          href={`/${typeToUrlSegment[type]}`}
+          href={`${typeToListPath[type]}/`}
           className="inline-block text-primary-dark hover:text-gray-700 transition-colors"
         >
           ← Back to {type.charAt(0).toUpperCase() + type.slice(1)}s

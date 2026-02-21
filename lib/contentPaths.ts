@@ -17,6 +17,19 @@ export const typeToUrlSegment: Record<ContentType, string> = {
   media: 'media',
 }
 
+/**
+ * Maps content type to the list page where that type is shown.
+ * Used for "Back to …" links (list pages are not always at /typeSegment).
+ */
+export const typeToListPath: Record<ContentType, string> = {
+  project: '/research',
+  publication: '/research',
+  dataset: '/data',
+  tool: '/tools',
+  talk: '/engagement',
+  media: '/engagement',
+}
+
 /** Returns the URL path for a content item (e.g. /projects/slug or /media/slug) */
 export function getContentHref(type: ContentType, slug: string): string {
   return `/${typeToUrlSegment[type]}/${slug}`
