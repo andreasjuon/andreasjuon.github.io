@@ -51,6 +51,7 @@ export const ContentFrontmatterSchema = z.object({
   publicationType: PublicationTypeSchema.optional(),
   authors: z.array(z.string()).optional(),
   year: z.string().optional(),
+  booktitle: z.string().optional(),
   status: PublicationStatusSchema.optional(),
   volume: z.string().optional(),
   number: z.string().optional(),
@@ -76,6 +77,7 @@ export type PublicationItem = ContentItem & {
   type: "publication";
   publicationType?: PublicationType;
   authors?: string[];
+  booktitle?: string;
   year?: string;
   status?: PublicationStatus;
   publisher?: string;

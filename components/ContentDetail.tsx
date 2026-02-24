@@ -1,5 +1,5 @@
 import { getContentBySlug, getRelatedItems, getPublicationsByProject, typeToUrlSegment, typeToListPath } from '@/lib/content'
-import { ContentType } from '@/lib/types'
+import { ContentType, PublicationItem } from '@/lib/types'
 import { getExternalLinkIcon } from '@/lib/icons'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -49,19 +49,50 @@ export default function ContentDetail({ type, slug }: ContentDetailProps) {
           {/* Metadata */}
           <div className="flex flex-wrap items-center gap-4 mb-4">
             {type === 'publication' && (() => {
-              const pub = item as {
-                authors?: string[]
-                year?: string
-                status?: string
-                date?: string
-                publisher?: string
-                journal?: string
-                volume?: string
-                number?: string
-                editors?: string[]
-              }
+              const pub = item as PublicationItem
               const statusLabels: Record<string, string> = { forthcoming: 'Forthcoming', 'under-review': 'Under review', 'first-draft': 'First draft', 'in-preparation': 'In preparation' }
               const yearOrStatus = pub.year || (pub.status ? statusLabels[pub.status] || pub.status : null) || (pub.date ? new Date(pub.date).getFullYear().toString() : null)
+
+              if (pub.publicationType === 'book-chapter') {
+                const authorsStr = pub.authors && pub.authors.length > 0 ? pub.authors.join(', ') : ''
+                const yearStr = yearOrStatus || ''
+                const editorsStr = pub.editors && pub.editors.length > 0 ? `${pub.editors.join(', ')} (eds.)` : ''
+                const booktitleStr = pub.booktitle || ''
+                const publisherStr = pub.publisher || ''
+
+                if (authorsStr || yearStr || editorsStr || booktitleStr || publisherStr) {
+                  const parts: string[] = []
+                  if (authorsStr || yearStr) {
+                    parts.push([authorsStr, yearStr].filter(Boolean).join(' '))
+                  }
+                  const inParts: string[] = []
+                  if (editorsStr) inParts.push(editorsStr)
+                  if (booktitleStr) inParts.push(booktitleStr)
+                  if (inParts.length > 0) {
+                    parts.push(`In: ${inParts.join(': ')}`)
+                  }
+                  if (publisherStr) {
+                    parts.push(publisherStr)
+                  }
+                  const formatted = parts.join(' - ').replace('In:', '- In:').replace(' - - ', ' - ')
+
+                  return (
+                    <span className="text-sm text-gray-600">
+                      {authorsStr && yearStr
+                        ? `${authorsStr} ${yearStr} - In: ${editorsStr}${editorsStr && booktitleStr ? ': ' : ''}${!editorsStr && booktitleStr ? booktitleStr : ''}${booktitleStr ? (editorsStr ? booktitleStr : '') : ''}${publisherStr ? `. ${publisherStr}.` : ''}`
+                        : [
+                            authorsStr || yearStr,
+                            inParts.length > 0 ? `In: ${inParts.join(': ')}` : '',
+                            publisherStr ? publisherStr : '',
+                          ]
+                            .filter(Boolean)
+                            .join(' - ')
+                      }
+                    </span>
+                  )
+                }
+              }
+
               let journalInfo: string | null = null
               if (pub.journal || pub.volume || pub.number) {
                 if (pub.journal) {
