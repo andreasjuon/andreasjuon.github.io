@@ -8,8 +8,19 @@ import SocialLinks from '@/components/SocialLinks'
 
 export default function Home() {
   const allItems = getAllContentItems()
-  // Mix different content types for the portfolio carousel
-  const portfolioItems = allItems.slice(0, 6)
+  const featuredItems = allItems
+    .filter((item) => typeof item.featured === 'number')
+    .map((item) => ({ item, rand: Math.random() }))
+    .sort((a, b) => {
+      const aFeatured = a.item.featured ?? 0
+      const bFeatured = b.item.featured ?? 0
+      if (aFeatured !== bFeatured) {
+        return bFeatured - aFeatured
+      }
+      return a.rand - b.rand
+    })
+    .map(({ item }) => item)
+    .slice(0, 12)
 
   return (
     <PageContainer>
@@ -28,15 +39,15 @@ export default function Home() {
           </div>
         </div>
 
-        {/* Portfolio Carousel */}
-        {portfolioItems.length > 0 && (
+        {/* Featured Work Carousel */}
+        {featuredItems.length > 0 && (
           <div className="mb-6">
             <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-4">Featured Work</h2>
-            <ContentCarousel items={portfolioItems} />
+            <ContentCarousel items={featuredItems} />
           </div>
         )}
-        
-        {portfolioItems.length === 0 && (
+
+        {featuredItems.length === 0 && (
           <div className="mb-12">
             <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-6">Featured Work</h2>
             <div className="bg-white rounded-lg shadow-card p-8 text-center">

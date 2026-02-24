@@ -15,6 +15,7 @@ interface ContentTileProps {
 export default function ContentTile({ item, aspectRatio = '16/9' }: ContentTileProps) {
   const typeColor = getTypeColor(item.type)
   const href = getContentHref(item.type, item.slug)
+  const label = (item as ContentItem & { subtype?: string }).subtype || item.type
 
   return (
     <div className="block group relative h-full">
@@ -36,7 +37,7 @@ export default function ContentTile({ item, aspectRatio = '16/9' }: ContentTileP
               className="absolute bottom-2 left-2 px-2 py-1 rounded text-xs font-medium text-white bg-black/60"
               style={{ backgroundColor: typeColor }}
             >
-              {item.type.charAt(0).toUpperCase() + item.type.slice(1)}
+              {label.charAt(0).toUpperCase() + label.slice(1)}
             </span>
           </div>
           <div className="p-4 flex flex-col flex-1">

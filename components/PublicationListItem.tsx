@@ -71,7 +71,7 @@ export default function PublicationListItem({ item }: PublicationListItemProps) 
         </div>
       </Link>
       {links.length > 0 && (
-        <div className="absolute top-4 right-4 flex gap-2 z-10">
+        <div className="hidden md:flex absolute top-4 right-4 gap-2 z-10">
           {links.map(([key, url]) =>
             url ? (
               <a

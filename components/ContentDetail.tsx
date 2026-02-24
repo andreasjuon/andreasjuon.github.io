@@ -49,9 +49,33 @@ export default function ContentDetail({ type, slug }: ContentDetailProps) {
           {/* Metadata */}
           <div className="flex flex-wrap items-center gap-4 mb-4">
             {type === 'publication' && (() => {
-              const pub = item as { authors?: string[]; year?: string; status?: string; date?: string; publisher?: string; journal?: string }
+              const pub = item as {
+                authors?: string[]
+                year?: string
+                status?: string
+                date?: string
+                publisher?: string
+                journal?: string
+                volume?: string
+                number?: string
+                editors?: string[]
+              }
               const statusLabels: Record<string, string> = { forthcoming: 'Forthcoming', 'under-review': 'Under review', 'first-draft': 'First draft', 'in-preparation': 'In preparation' }
               const yearOrStatus = pub.year || (pub.status ? statusLabels[pub.status] || pub.status : null) || (pub.date ? new Date(pub.date).getFullYear().toString() : null)
+              let journalInfo: string | null = null
+              if (pub.journal || pub.volume || pub.number) {
+                if (pub.journal) {
+                  journalInfo = pub.journal
+                  if (pub.volume) {
+                    journalInfo += `, ${pub.volume}`
+                    if (pub.number) {
+                      journalInfo += `(${pub.number})`
+                    }
+                  }
+                } else if (pub.volume || pub.number) {
+                  journalInfo = [pub.volume, pub.number ? `(${pub.number})` : null].filter(Boolean).join(' ')
+                }
+              }
               return pub.authors?.length || yearOrStatus ? (
                 <>
                   {pub.authors && pub.authors.length > 0 && (
@@ -64,9 +88,20 @@ export default function ContentDetail({ type, slug }: ContentDetailProps) {
                       {yearOrStatus}
                     </span>
                   )}
-                  {pub.publisher && `${pub.publisher}`}
-                  {pub.journal && (
-                    <span className="italic text-sm text-gray-600">{`${pub.journal}`}</span>
+                  {pub.publisher && (
+                    <span className="text-sm text-gray-600">
+                      {pub.publisher}
+                    </span>
+                  )}
+                  {journalInfo && (
+                    <span className="italic text-sm text-gray-600">
+                      {journalInfo}
+                    </span>
+                  )}
+                  {pub.editors && pub.editors.length > 0 && (
+                    <span className="text-sm text-gray-600">
+                      Editors: {pub.editors.join(', ')}
+                    </span>
                   )}
                 </>
               ) : null;

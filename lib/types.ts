@@ -45,11 +45,16 @@ export const ContentFrontmatterSchema = z.object({
   date: z.string().optional(),
   externalLinks: ExternalLinksSchema,
   relatedItems: z.array(z.string()).optional(),
+  subtype: z.string().optional(),
+  featured: z.number().optional(),
   // Publication-specific optional fields
   publicationType: PublicationTypeSchema.optional(),
   authors: z.array(z.string()).optional(),
   year: z.string().optional(),
   status: PublicationStatusSchema.optional(),
+  volume: z.string().optional(),
+  number: z.string().optional(),
+  editors: z.array(z.string()).optional(),
   relatedProjects: z.array(z.string()).optional(),
   relatedDatasets: z.array(z.string()).optional(),
   publicationLinks: PublicationLinksSchema.optional(),
@@ -75,6 +80,9 @@ export type PublicationItem = ContentItem & {
   status?: PublicationStatus;
   publisher?: string;
   journal?: string;
+  volume?: string;
+  number?: string;
+  editors?: string[];
   relatedProjects?: string[];
   relatedDatasets?: string[];
   publicationLinks?: PublicationLinks;

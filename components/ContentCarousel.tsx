@@ -42,6 +42,11 @@ export default function ContentCarousel({ items, itemsPerView }: ContentCarousel
     return () => window.removeEventListener('resize', updateVisibleItems)
   }, [itemsPerView])
 
+  useEffect(() => {
+    const maxIndex = Math.max(0, items.length - visibleItems)
+    setStartIndex((prev) => (items.length <= visibleItems ? 0 : Math.min(prev, maxIndex)))
+  }, [items.length, visibleItems])
+
   const maxIndex = Math.max(0, items.length - visibleItems)
 
   const goPrevious = () => {
