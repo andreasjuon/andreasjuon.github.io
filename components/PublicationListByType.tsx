@@ -13,12 +13,13 @@ const PUBLICATION_TYPE_ORDER: PublicationType[] = ['book', 'peer-reviewed', 'boo
 // Lower rank means higher priority in the list
 const STATUS_RANK: Record<string, number> = {
   forthcoming: 0,
-  'under-review': 1,
-  'first-draft': 2,
-  'in-preparation': 3,
-}
+  "R&R": 1,
+  "under-review": 2,
+  "first-draft": 3,
+  "in-preparation": 4
+};
 
-const DEFAULT_STATUS_RANK = 4
+const DEFAULT_STATUS_RANK = 5
 
 function getYearNumber(p: PublicationItem): number {
   if (p.year) {

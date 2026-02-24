@@ -50,7 +50,7 @@ export default function Figure({
   return (
     <figure
       className={clsx(
-        "my-0 max-w-full",
+        "my-6 max-w-full",
         widthClass,
         align === "left" && "md:float-left md:mr-4 float-none w-full",
         align === "right" && "md:float-right md:ml-4 float-none w-full",
@@ -63,7 +63,10 @@ export default function Figure({
         width={width}
         height={aspectHeight}
         sizes={`(max-width: 768px) 100vw, ${width}px`}
-        className="max-w-full h-auto"
+        className={clsx(
+          "max-w-full h-auto",
+          align === "center" && "block mx-auto"
+        )}
       />
       {caption && (
         <figcaption className="text-sm text-gray-500 mt-2">{caption}</figcaption>

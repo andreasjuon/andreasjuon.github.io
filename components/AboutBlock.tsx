@@ -10,7 +10,7 @@ interface AboutBlockProps {
 
 export default function AboutBlock({
   portraitImage = '/images/portrait.jpg',
-  name = 'Andreas Juon',
+  name = 'Dr. Andreas Juon',
   positioning = 'Academic researcher | Data scientist | Advisory services',
   description,
 }: AboutBlockProps) {

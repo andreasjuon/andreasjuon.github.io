@@ -18,7 +18,7 @@ export const PublicationTypeSchema = z.enum(['book', 'peer-reviewed', 'book-chap
 export type PublicationType = z.infer<typeof PublicationTypeSchema>
 
 /** Publication status when not yet published */
-export const PublicationStatusSchema = z.enum(['forthcoming', 'under-review', 'first-draft', 'in-preparation'])
+export const PublicationStatusSchema = z.enum(['R&R','forthcoming', 'under-review', 'first-draft', 'in-preparation'])
 export type PublicationStatus = z.infer<typeof PublicationStatusSchema>
 
 /** Publication-specific links (subtle, accessible) */
