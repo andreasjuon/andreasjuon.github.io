@@ -1,9 +1,5 @@
-'use client'
-
-import { useState } from 'react'
 import Link from 'next/link'
 import { getRecentUpdates } from '@/lib/updates'
-import { FiChevronDown, FiChevronUp } from 'react-icons/fi'
 
 interface RecentUpdatesPanelProps {
   limit?: number
@@ -11,31 +7,13 @@ interface RecentUpdatesPanelProps {
 }
 
 export default function RecentUpdatesPanel({ limit = 10, className = '' }: RecentUpdatesPanelProps) {
-  const [isExpanded, setIsExpanded] = useState(false)
   const updates = getRecentUpdates(limit)
 
   return (
     <div className={`bg-white rounded-lg shadow-card p-6 lg:h-full lg:flex lg:flex-col lg:min-h-0 ${className}`}>
-      {/* Mobile: Collapsible button */}
-      <button
-        onClick={() => setIsExpanded(!isExpanded)}
-        className="lg:hidden flex items-center justify-between text-lg font-semibold text-gray-900 mb-4 flex-shrink-0 hover:text-gray-700 transition-colors w-full"
-        aria-expanded={isExpanded}
-        aria-label={isExpanded ? 'Collapse recent updates' : 'Expand recent updates'}
-      >
-        <span>Recent Updates</span>
-        {isExpanded ? (
-          <FiChevronUp className="w-5 h-5" />
-        ) : (
-          <FiChevronDown className="w-5 h-5" />
-        )}
-      </button>
-      
-      {/* Desktop: Regular title */}
-      <h3 className="hidden lg:block text-lg font-semibold text-gray-900 mb-4 flex-shrink-0">Recent Updates</h3>
-      
-      {/* Content: Always visible on desktop, conditional on mobile */}
-      <div className={`${isExpanded ? 'block' : 'hidden'} lg:block lg:flex-1 lg:overflow-y-auto lg:min-h-0 space-y-4 pr-1`}>
+      <h3 className="text-lg font-semibold text-gray-900 mb-4 flex-shrink-0">Recent Updates</h3>
+
+      <div className="lg:flex-1 lg:overflow-y-auto lg:min-h-0 space-y-4 pr-1">
         {updates.map((entry) => {
           const content = (
             <>
@@ -68,10 +46,9 @@ export default function RecentUpdatesPanel({ limit = 10, className = '' }: Recen
         })}
       </div>
       
-      {/* Footer link: Always visible on desktop, conditional on mobile */}
       <Link
         href="/updates"
-        className={`lg:block flex-shrink-0 mt-4 pt-4 border-t border-gray-100 text-primary-dark hover:underline text-sm font-medium ${isExpanded ? 'block' : 'hidden'}`}
+        className="lg:block flex-shrink-0 mt-4 pt-4 border-t border-gray-100 text-primary-dark hover:underline text-sm font-medium"
       >
         View all updates
       </Link>

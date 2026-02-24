@@ -1,6 +1,10 @@
+import fs from 'fs'
+import path from 'path'
+import matter from 'gray-matter'
+import { z } from 'zod'
+
 /**
- * Recent updates / news entries.
- * Placeholder data for now; can be replaced with MDX or CMS later.
+ * Recent updates / news entries loaded from MDX files in content/updates.
  */
 export interface UpdateEntry {
   id: string
@@ -10,25 +14,113 @@ export interface UpdateEntry {
   href?: string
 }
 
-const PLACEHOLDER_UPDATES: UpdateEntry[] = [
-  { id: '1', date: '2024-06-15', title: 'New publication accepted', summary: 'Peer-reviewed article on power-sharing institutions accepted for publication.', href: '/publications/power-sharing-2023/' },
-  { id: '2', date: '2024-05-20', title: 'Conference presentation delivered', summary: 'Presented research on dominant nationalism at annual conference.', href: '/talks/nationalism-conference-2024/' },
-  { id: '3', date: '2024-04-10', title: 'Dataset released', summary: 'Power-sharing institutions dataset now available for researchers.', href: '/datasets/power-sharing-dataset/' },
-  { id: '4', date: '2024-03-01', title: 'Reflections on power-sharing research', summary: 'Thoughts on methodological challenges and future directions.' },
-  { id: '5', date: '2024-02-15', title: 'Research dashboard updated', summary: 'New visualization features added to the interactive dashboard.', href: '/tools/research-dashboard/' },
-  { id: '6', date: '2024-01-20', title: 'Media interview published', summary: 'Discussion of recent findings on power-sharing and democratic stability.', href: '/media/interview-2024/' },
-  { id: '7', date: '2024-01-05', title: 'Collaboration with international team', summary: 'Beginning work on comparative power-sharing analysis.' },
-  { id: '8', date: '2023-12-10', title: 'Methodology notes: fixed-effects models', summary: 'Technical write-up on regression approaches used in recent work.' },
-  { id: '9', date: '2023-11-22', title: 'Manuscript under review', summary: 'New article on territorial power-sharing submitted to journal.' },
-  { id: '10', date: '2023-10-15', title: 'Workshop participation', summary: 'Contributed to methods workshop on quantitative conflict research.' },
-]
+const UpdateEntrySchema = z.object({
+  id: z.string(),
+  date: z.string(),
+  title: z.string(),
+  summary: z.string().optional(),
+  href: z.string().optional(),
+})
 
-export function getRecentUpdates(limit = 10): UpdateEntry[] {
-  return PLACEHOLDER_UPDATES.slice(0, limit)
+const updatesDirectory = path.join(process.cwd(), 'content', 'updates')
+
+let _cachedAllUpdates: UpdateEntry[] | null = null
+
+function parseUpdatesFromFile(filePath: string): UpdateEntry[] {
+  const fileContents = fs.readFileSync(filePath, 'utf8')
+
+  // Strip frontmatter so we can safely search the remaining MDX/JS content
+  const { content } = matter(fileContents)
+
+  // Look for a top-level `export const updates = [...]` array in the MDX body
+  const exportMatch = content.match(
+    /export\s+const\s+updates\s*=\s*(\[[\s\S]*?\]);?/m
+  )
+  if (!exportMatch) {
+    return []
+  }
+
+  const arraySource = exportMatch[1]
+
+  try {
+    // Evaluate the array literal in a sandboxed function scope.
+    // The MDX files are part of the repo, so this is trusted input.
+    // eslint-disable-next-line no-new-func
+    const fn = new Function(`return ${arraySource}`) as () => unknown
+    const raw = fn()
+    if (!Array.isArray(raw)) {
+      return []
+    }
+
+    const parsed: UpdateEntry[] = []
+    for (const item of raw) {
+      const result = UpdateEntrySchema.safeParse(item)
+      if (!result.success) continue
+      parsed.push(result.data)
+    }
+    return parsed
+  } catch {
+    return []
+  }
+}
+
+function loadAllUpdatesFromDisk(): UpdateEntry[] {
+  if (_cachedAllUpdates) return _cachedAllUpdates
+
+  if (!fs.existsSync(updatesDirectory)) {
+    _cachedAllUpdates = []
+    return _cachedAllUpdates
+  }
+
+  const files = fs.readdirSync(updatesDirectory)
+  const all: UpdateEntry[] = []
+
+  for (const filename of files) {
+    if (!filename.match(/\.mdx?$/)) continue
+    const filePath = path.join(updatesDirectory, filename)
+    const updates = parseUpdatesFromFile(filePath)
+    all.push(...updates)
+  }
+
+  // Sort by date descending (newest first). Invalid dates fall to the end.
+  all.sort((a, b) => {
+    const aTime = Date.parse(a.date)
+    const bTime = Date.parse(b.date)
+    if (Number.isNaN(aTime) && Number.isNaN(bTime)) return 0
+    if (Number.isNaN(aTime)) return 1
+    if (Number.isNaN(bTime)) return -1
+    return bTime - aTime
+  })
+
+  // #region agent log
+  fetch('http://127.0.0.1:7242/ingest/10613f17-857b-46af-94cd-2be4ef75b626', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'X-Debug-Session-Id': 'c68d74',
+    },
+    body: JSON.stringify({
+      sessionId: 'c68d74',
+      runId: 'post-fix-1',
+      hypothesisId: 'H1',
+      location: 'lib/updates.ts:loadAllUpdatesFromDisk',
+      message: 'Loaded updates from MDX files',
+      data: { total: all.length },
+      timestamp: Date.now(),
+    }),
+  }).catch(() => {})
+  // #endregion agent log
+
+  _cachedAllUpdates = all
+  return _cachedAllUpdates
 }
 
 export function getAllUpdates(): UpdateEntry[] {
-  return [...PLACEHOLDER_UPDATES]
+  return loadAllUpdatesFromDisk()
+}
+
+export function getRecentUpdates(limit = 10): UpdateEntry[] {
+  return getAllUpdates().slice(0, limit)
 }
 
 export const PAGE_SIZE_OPTIONS = [10, 25, 50, 100] as const
