@@ -40,15 +40,17 @@ export default function ContentTile({ item, aspectRatio = '16/9' }: ContentTileP
               {label.charAt(0).toUpperCase() + label.slice(1)}
             </span>
           </div>
-          <div className="p-4 flex flex-col flex-1">
+          <div className="p-4 flex flex-col h-[15rem] md:h-[15rem] overflow-hidden">
             <div className="flex items-start justify-between mb-2">
-              <h3 className="text-lg font-semibold text-gray-900 group-hover:text-gray-700 transition-colors">
+              <h3 className="text-lg font-semibold text-gray-900 group-hover:text-gray-700 transition-colors line-clamp-3">
                 {item.title}
               </h3>
             </div>
-            <p className="text-sm text-gray-600 line-clamp-2">{item.summary}</p>
+            <p className="text-sm text-gray-600 line-clamp-4 leading-snug">
+              {item.summary}
+            </p>
             {item.tags && item.tags.length > 0 && (
-              <div className="flex flex-wrap gap-1 mt-2 mt-auto">
+              <div className="flex flex-wrap gap-1 mt-2">
                 {item.tags.slice(0, 3).map((tag) => (
                   <span
                     key={tag}
