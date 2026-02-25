@@ -24,53 +24,61 @@ export default function Home() {
 
   return (
     <PageContainer>
-        {/* Main Content Grid - About Block and Recent Updates, equal height, height-capped so Featured Work stays visible */}
-        <div className="grid grid-cols-1 lg:grid-cols-4 gap-8 mb-6 items-stretch">
-          {/* Left Column - About Block */}
-          <div className="lg:col-span-3 min-h-[200px] lg:max-h-[350px] lg:h-full">
-            <AboutBlock
-              description="I specialize in quantitative research on political institutions, conflict, and democratic stability. My work combines data science with political science to investigate power-sharing arrangements and their effects on political outcomes."
-            />
-          </div>
-
-          {/* Right Sidebar - Recent Updates (scrollable) */}
-          <div className="lg:col-span-1 lg:h-full lg:max-h-[350px]">
-            <RecentUpdatesPanel limit={10} />
-          </div>
+      {/* Main Content Grid - About Block and Recent Updates */}
+      <div className="grid grid-cols-1 2xl:grid-cols-4 gap-8 mb-6 items-stretch">
+        {/* Left Column - About Block */}
+        <div className="2xl:col-span-3 min-h-[200px] lg:max-h-[350px] lg:h-full">
+          <AboutBlock description="I study how identity politics and institutional design shape conflict, democratic stability, and geopolitical risk. Using original cross-national data and quantitative analytics, I evaluate policies such as power-sharing and regional autonomy and their unintended effects. I also advise governments and organizations seeking evidence-based insights into political and security risk." />
         </div>
 
-        {/* Featured Work Carousel */}
-        {featuredItems.length > 0 && (
-          <div className="mb-6">
-            <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-4">Featured Work</h2>
-            <ContentCarousel items={featuredItems} />
-          </div>
-        )}
+        {/* Right Sidebar - Recent Updates (scrollable) */}
+        <div className="2xl:col-span-1 lg:h-full lg:max-h-[350px]">
+          <RecentUpdatesPanel limit={10} />
+        </div>
+      </div>
 
-        {featuredItems.length === 0 && (
-          <div className="mb-12">
-            <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-6">Featured Work</h2>
-            <div className="bg-white rounded-lg shadow-card p-8 text-center">
-              <p className="text-gray-600">Content will appear here once added.</p>
-            </div>
-          </div>
-        )}
+      {/* Featured Work Carousel */}
+      {featuredItems.length > 0 && (
+        <div className="mb-6">
+          <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-4">
+            Featured Work
+          </h2>
+          <ContentCarousel items={featuredItems} />
+        </div>
+      )}
 
-        {/* Bottom Section - Social Links & Contact */}
-        <div className="bg-white rounded-lg shadow-card p-8">
-          <div className="flex flex-col md:flex-row items-center justify-between gap-6">
-            <div className="text-center md:text-left">
-              <h3 className="text-xl font-semibold text-gray-900 mb-2">Get in Touch</h3>
-              <p className="text-gray-600">Connect with me on social media or reach out directly.</p>
-            </div>
-            <SocialLinks
-              github={siteConfig.socialLinks.github}
-              scholar={siteConfig.socialLinks.scholar}
-              twitter={siteConfig.socialLinks.twitter}
-              email={siteConfig.email}
-            />
+      {featuredItems.length === 0 && (
+        <div className="mb-12">
+          <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-6">
+            Featured Work
+          </h2>
+          <div className="bg-white rounded-lg shadow-card p-8 text-center">
+            <p className="text-gray-600">
+              Content will appear here once added.
+            </p>
           </div>
         </div>
+      )}
+
+      {/* Bottom Section - Social Links & Contact */}
+      <div className="bg-white rounded-lg shadow-card p-8">
+        <div className="flex flex-col md:flex-row items-center justify-between gap-6">
+          <div className="text-center md:text-left">
+            <h3 className="text-xl font-semibold text-gray-900 mb-2">
+              Get in Touch
+            </h3>
+            <p className="text-gray-600">
+              Connect with me on social media or reach out directly.
+            </p>
+          </div>
+          <SocialLinks
+            github={siteConfig.socialLinks.github}
+            scholar={siteConfig.socialLinks.scholar}
+            twitter={siteConfig.socialLinks.twitter}
+            email={siteConfig.email}
+          />
+        </div>
+      </div>
     </PageContainer>
-  )
+  );
 }

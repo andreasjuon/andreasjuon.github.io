@@ -91,26 +91,6 @@ function loadAllUpdatesFromDisk(): UpdateEntry[] {
     if (Number.isNaN(bTime)) return -1
     return bTime - aTime
   })
-
-  // #region agent log
-  fetch('http://127.0.0.1:7242/ingest/10613f17-857b-46af-94cd-2be4ef75b626', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'X-Debug-Session-Id': 'c68d74',
-    },
-    body: JSON.stringify({
-      sessionId: 'c68d74',
-      runId: 'post-fix-1',
-      hypothesisId: 'H1',
-      location: 'lib/updates.ts:loadAllUpdatesFromDisk',
-      message: 'Loaded updates from MDX files',
-      data: { total: all.length },
-      timestamp: Date.now(),
-    }),
-  }).catch(() => {})
-  // #endregion agent log
-
   _cachedAllUpdates = all
   return _cachedAllUpdates
 }

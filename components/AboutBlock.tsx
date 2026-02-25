@@ -9,9 +9,9 @@ interface AboutBlockProps {
 }
 
 export default function AboutBlock({
-  portraitImage = '/images/portrait.jpg',
-  name = 'Dr. Andreas Juon',
-  positioning = 'Academic researcher | Data scientist | Advisory services',
+  portraitImage = "/images/portrait.jpg",
+  name = "Dr. Andreas Juon",
+  positioning = "Researcher in Conflict & Security | Data Analytics | Consulting",
   description,
 }: AboutBlockProps) {
   return (
@@ -42,7 +42,7 @@ export default function AboutBlock({
               </p>
             )}
           </div>
-          <div className="mt-3 md:mt-4 flex flex-row gap-2 sm:gap-4 justify-center sm:justify-start flex-wrap flex-shrink-0 pb-0">
+          <div className="mt-3 md:mt-4 flex flex-row gap-2 sm:gap-4 justify-center md:justify-start flex-wrap flex-shrink-0 pb-0">
             <Link
               href="/about"
               className="inline-flex items-center justify-center px-3 sm:px-4 py-2 rounded-md bg-primary-dark text-white text-xs sm:text-sm font-medium hover:bg-gray-800 transition-colors whitespace-nowrap flex-shrink-0"
