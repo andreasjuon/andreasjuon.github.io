@@ -27,12 +27,12 @@ export default function Home() {
       {/* Main Content Grid - About Block and Recent Updates */}
       <div className="grid grid-cols-1 2xl:grid-cols-4 gap-8 mb-6 items-stretch">
         {/* Left Column - About Block */}
-        <div className="2xl:col-span-3 min-h-[200px] lg:max-h-[350px] lg:h-full">
+        <div className="2xl:col-span-3 min-h-[200px] 2xl:max-h-[350px] 2xl:h-full">
           <AboutBlock description="I study how identity politics and institutional design shape conflict, democratic stability, and geopolitical risk. Using original cross-national data and quantitative analytics, I evaluate policies such as power-sharing and regional autonomy and their unintended effects. I also advise governments and organizations seeking evidence-based insights into political and security risk." />
         </div>
 
         {/* Right Sidebar - Recent Updates (scrollable) */}
-        <div className="2xl:col-span-1 lg:h-full lg:max-h-[350px]">
+        <div className="2xl:col-span-1 2xl:h-full 2xl:max-h-[350px]">
           <RecentUpdatesPanel limit={10} />
         </div>
       </div>

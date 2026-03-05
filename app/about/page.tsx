@@ -36,27 +36,88 @@ export default function AboutPage() {
               <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
                 About
               </h1>
-              <p className="text-lg text-gray-700">
-                I am a quantitative political scientist. Currently, I am a
-                researcher at University of Fribourg, financed by an SNSF
-                Ambizione grant. I am also associated in continuing
-                collaboration with the International Conflict Research Group at
-                ETH Zurich. I obtained my PhD from University College London in
-                2020. In 2021, my dissertation was awarded the ECPR Jean Blondel
-                Prize (best dissertation in politics). I am currently pursuing a
-                second master&apos;s degree in analytics/data science from
-                Georgia Tech, which supports my work in data engineering,
-                large-scale data integration, and applied statistical modeling.
-                I also hold an MA degree in Comparative and International
-                Studies from ETH Zurich and a BSc degree in Geography and
-                Chinese from University of Zurich.
-              </p>
+              <ul className="list-disc pl-6 text-lg text-gray-700 mb-4">
+                <li>
+                  Political scientist with 9+ years work experience in conflict
+                  and nationalism research
+                </li>
+                <li>
+                  Multiple years of experience in leadership of research and
+                  data projects (up to 12 employees)
+                </li>
+                <li>
+                  Communication with diverse target audiences: funding agencies
+                  (1.5 million CHF+ secured research funds), practitioners
+                  (recent presentation at Austrian parliament + regular
+                  workshops with conflict practitioners at University College
+                  London), subject matter experts (~30 presentations at
+                  international conferences and 11 published articles), students
+                  (in 6 different courses), and refugees (3 years' work)
+                </li>
+                <li>
+                  Regional expertise on former Soviet Union (3 scientific
+                  publications) and East Asia (studies in Sinology and Chinese,
+                  12 months spent in China)
+                </li>
+              </ul>
             </div>
           </div>
         </div>
 
+        {/* Curriculum Vitae block */}
+        <div className={CONTENT_FRAME_CLASS}>
+          <h2 className="text-2xl font-semibold text-gray-900 mb-4">
+            Curriculum Vitae
+          </h2>
+          <p className="text-gray-700 mb-4">
+            You can browse my full CV below or download it as a PDF.
+          </p>
+
+          <div className="flex flex-wrap gap-3 mb-4">
+            <a
+              href="/cv_andreas_juon.pdf"
+              download
+              className="inline-flex items-center rounded-md bg-gray-900 px-4 py-2 text-sm font-medium text-white hover:bg-gray-800 focus:outline-none focus-visible:ring-2 focus-visible:ring-gray-900 focus-visible:ring-offset-2"
+            >
+              Download CV (PDF)
+            </a>
+            <a
+              href="/cv_andreas_juon.pdf"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center rounded-md border border-gray-300 px-4 py-2 text-sm font-medium text-gray-800 hover:bg-gray-50 focus:outline-none focus-visible:ring-2 focus-visible:ring-gray-300 focus-visible:ring-offset-2"
+            >
+              Open in new tab
+            </a>
+          </div>
+
+          <details className="mt-2">
+            <summary className="cursor-pointer text-sm font-medium text-gray-800">
+              View CV inline (PDF preview)
+            </summary>
+            <div className="mt-4">
+              <object
+                data="/cv_andreas_juon.pdf"
+                type="application/pdf"
+                className="w-full h-[600px] max-h-[80vh] rounded-lg border border-gray-200"
+              >
+                <p className="text-gray-700">
+                  Your browser does not support embedded PDFs. You can{" "}
+                  <a
+                    href="/cv_andreas_juon.pdf"
+                    className="underline text-gray-900"
+                  >
+                    download the CV here
+                  </a>
+                  .
+                </p>
+              </object>
+            </div>
+          </details>
+        </div>
+
         {/* Three-column section: Research, Data & Methods, Consulting */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8 mt-8">
           {/* Research block */}
           <div className={INTRO_FRAME_CLASS}>
             <h2 className="text-2xl font-semibold text-gray-900 mb-4">
@@ -141,7 +202,7 @@ export default function AboutPage() {
               and private firms that need rigorous analysis of political and
               security risk. My consulting focuses on:
             </p>
-            <ul className="list-disc list-inside text-lg text-gray-700 mb-4">
+            <ul className="list-disc pl-6 text-lg text-gray-700 mb-4">
               <li>Political risk assessment and forecasting</li>
               <li>Conflict and instability analysis</li>
               <li>Institutional design and peacebuilding evaluation</li>
@@ -156,17 +217,6 @@ export default function AboutPage() {
               consulting, or invited talks, please get in touch.
             </p>
           </div>
-        </div>
-
-        {/* Curriculum Vitae block */}
-        <div className={CONTENT_FRAME_CLASS}>
-          <h2 className="text-2xl font-semibold text-gray-900 mb-4">
-            Curriculum Vitae
-          </h2>
-          <p className="text-gray-700">
-            [CV content will be embedded here. You can add a link to download
-            your CV or embed it directly.]
-          </p>
         </div>
       </div>
     </PageContainer>

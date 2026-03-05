@@ -51,7 +51,7 @@ export default function AboutBlock({
               <span className="hidden md:inline">Learn more about me</span>
             </Link>
             <a
-              href="/cv.pdf"
+              href="/cv_andreas_juon.pdf"
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center justify-center px-3 sm:px-4 py-2 rounded-md border border-gray-300 text-xs sm:text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 transition-colors whitespace-nowrap flex-shrink-0"
