@@ -27,7 +27,7 @@ export default function AboutPage() {
                   src="/images/portrait2.jpeg"
                   alt="Portrait of Andreas Juon"
                   fill
-                  className="object-cover object-[50%_25%] transform scale-150 translate-y-12 -translate-x-6"
+                  className="object-cover object-[50%_25%] transform scale-110 translate-y-2 -translate-x-2"
                   sizes="(max-width: 768px) 224px, 256px"
                 />
               </div>
