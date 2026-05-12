@@ -6,10 +6,25 @@ import { z } from 'zod'
 /**
  * Recent updates / news entries loaded from MDX files in content/updates.
  */
+export const UPDATE_CATEGORIES = [
+  'publication',
+  'book-chapter',
+  'conference',
+  'talk',
+  'dataset',
+  'teaching',
+  'award',
+  'media',
+  'policy',
+] as const
+
+export type UpdateCategory = typeof UPDATE_CATEGORIES[number]
+
 export interface UpdateEntry {
   id: string
   date: string
   title: string
+  category?: UpdateCategory
   summary?: string
   href?: string
 }
@@ -18,6 +33,7 @@ const UpdateEntrySchema = z.object({
   id: z.string(),
   date: z.string(),
   title: z.string(),
+  category: z.enum(UPDATE_CATEGORIES).optional(),
   summary: z.string().optional(),
   href: z.string().optional(),
 })
