@@ -1,0 +1,48 @@
+---
+# TEMPLATE — copy this file, rename it, fill in all fields, then delete unused optional lines.
+# Slug convention: {firstauthor}{year}_{journal} or {author1_author2YYYY}_{journal}
+# For ongoing work: {author1_author2ONGOING}_{short-topic}
+
+title: "Full title of the publication"
+type: publication
+summary: "One-sentence description shown on cards and lists."
+tags: ["tag1", "tag2"]
+previewImage: "/images/publications/SLUG/preview.png"
+date: "YYYY"
+
+# Publication classification
+publicationType: peer-reviewed   # book | peer-reviewed | book-chapter | in-progress
+authors: ["Andreas Juon"]
+year: "YYYY"
+journal: "Journal Name"           # for articles
+# booktitle: "Book Title"         # for book chapters (use instead of journal)
+# editors: ["Editor Name"]        # for book chapters
+# volume: "119"
+# number: "3"
+
+# Status — only for unpublished work; omit for published papers
+# status: under-review            # R&R | forthcoming | conditionally-accepted | under-review | first-draft | in-preparation
+
+# Links (publication-specific, displayed subtly on detail page)
+publicationLinks:
+  pdf: "https://doi.org/..."
+  doi: "https://doi.org/..."
+  # supplementary: "https://..."
+
+# External links (displayed as icon buttons)
+# externalLinks:
+#   code: "https://github.com/..."
+#   data: "https://dataverse.harvard.edu/..."
+
+# Homepage carousel — higher number = more prominent; omit if not featured
+# featured: 5
+
+# Cross-references (use slugs — must match existing content filenames)
+relatedProjects: []
+relatedDatasets: []
+relatedItems: []
+---
+
+Abstract / description text here. Supports **bold**, *italic*, and `<Figure>` components.
+
+<Figure src="/images/publications/SLUG/figure1.png" caption="Caption." align="center" width={800} />
