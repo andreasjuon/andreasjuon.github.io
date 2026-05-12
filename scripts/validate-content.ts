@@ -117,7 +117,7 @@ for (const type of CONTENT_TYPES) {
   const typeDir = path.join(CONTENT_DIR, typeToUrlSegment[type])
   if (!fs.existsSync(typeDir)) continue
 
-  const files = fs.readdirSync(typeDir).filter((f) => /\.mdx?$/.test(f))
+  const files = fs.readdirSync(typeDir).filter((f) => /\.mdx?$/.test(f) && !f.startsWith('_'))
   for (const file of files) {
     validateFile(path.join(typeDir, file), type)
   }

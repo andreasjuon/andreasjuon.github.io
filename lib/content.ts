@@ -61,6 +61,7 @@ export function getAllContentItems(): ContentItem[] {
     const files = fs.readdirSync(typeDir)
     files.forEach((filename) => {
       if (!filename.match(/\.mdx?$/)) return
+      if (filename.startsWith('_')) return
 
       const filePath = path.join(typeDir, filename)
       const fileContents = fs.readFileSync(filePath, 'utf8')
@@ -100,7 +101,7 @@ export function getContentBySlug(type: ContentType, slug: string): ContentItem |
 
   const files = fs.readdirSync(typeDir)
   
-  const file = files.find((f) => getSlugFromFilename(f) === slug)
+  const file = files.find((f) => !f.startsWith('_') && getSlugFromFilename(f) === slug)
   if (!file) return null
 
   const filePath = path.join(typeDir, file)
@@ -140,7 +141,7 @@ export function getAllSlugs(type: ContentType): string[] {
 
   const files = fs.readdirSync(typeDir)
   return files
-    .filter((filename) => filename.match(/\.mdx?$/))
+    .filter((filename) => filename.match(/\.mdx?$/) && !filename.startsWith('_'))
     .map((filename) => getSlugFromFilename(filename))
 }
 
