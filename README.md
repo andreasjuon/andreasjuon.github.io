@@ -1,183 +1,191 @@
-# Personal Website - Next.js Implementation
+# Personal Website — Andreas Juon
 
-A content-driven, modular personal website built with Next.js, showcasing academic research, data science work, and consulting services.
+Academic personal website for Andreas Juon (political scientist, University of Fribourg). Built with Next.js 14, deployed to GitHub Pages as a fully static site.
 
-## Features
+**Live site:** [andreasjuon.com](https://andreasjuon.com)
 
-- **Static Site Generation**: Fully static site optimized for GitHub Pages deployment
-- **Content-Driven**: MDX/Markdown content with structured frontmatter
-- **Multiple Layout Modes**: Content can be displayed as tiles, horizontal lists, or detail pages
-- **Responsive Design**: Mobile-first approach with Tailwind CSS
-- **SEO Optimized**: Metadata, Open Graph tags, and sitemap generation
-- **Type-Safe**: Full TypeScript support
-
-## Tech Stack
-
-- Next.js 14+ (App Router)
-- TypeScript
-- Tailwind CSS
-- MDX/Markdown content
-- React Icons
-
-## Project Structure
-
-```
-├── app/                    # Next.js app directory
-│   ├── about/             # About page
-│   ├── research/          # Research page
-│   ├── data/              # Datasets page
-│   ├── consulting/        # Consulting page
-│   ├── tools/             # Tools page
-│   ├── engagement/        # Public engagement page
-│   ├── contact/           # Contact page
-│   ├── projects/[slug]/   # Project detail pages
-│   ├── publications/[slug]/ # Publication detail pages
-│   ├── datasets/[slug]/   # Dataset detail pages
-│   ├── tools/[slug]/      # Tool detail pages
-│   ├── talks/[slug]/      # Talk detail pages
-│   └── media/[slug]/      # Media detail pages
-├── components/            # React components
-│   ├── ContentTile.tsx    # Rectangular card component
-│   ├── ContentListItem.tsx # Horizontal list item component
-│   ├── ContentGrid.tsx    # Grid wrapper
-│   ├── ContentCarousel.tsx # Carousel component
-│   ├── ContentDetail.tsx  # Shared content detail view
-│   ├── Navbar.tsx         # Navigation bar
-│   └── ...
-├── content/               # MDX content files
-│   ├── projects/
-│   ├── publications/
-│   ├── datasets/
-│   ├── tools/
-│   ├── talks/
-│   └── media/
-├── lib/                   # Utility functions
-│   ├── types.ts           # Zod schemas and TypeScript types
-│   ├── content.ts         # Content collection utilities
-│   ├── metadata.ts        # SEO metadata utilities
-│   ├── siteConfig.ts      # Centralized site configuration
-│   ├── icons.tsx          # Shared icon utilities
-│   └── typeColors.ts      # Content type color mapping
-├── scripts/               # Build and validation scripts
-│   └── validate-content.ts # Content validation (frontmatter, images, links)
-└── public/                # Static assets
-    └── images/
-```
-
-## Content Model
-
-Each content item (project, publication, dataset, tool, talk, media) follows a standardized schema:
-
-### Required Fields
-- `title`: Content title
-- `type`: Content type (project | publication | dataset | tool | talk | media)
-- `summary`: Short description
-- `tags`: Array of tags
-- `previewImage`: Path to preview image
-
-### Optional Fields
-- `date`: Publication/creation date
-- `externalLinks`: Object with paper, code, data, demo, website links
-- `relatedItems`: Array of slugs of related items
-
-## Getting Started
-
-1. Install dependencies:
-```bash
-npm install
-```
-
-2. Run development server:
-```bash
-npm run dev
-```
-
-3. Build for production:
-```bash
-npm run build
-```
-
-4. Start production server:
-```bash
-npm start
-```
-
-## Adding Content
-
-1. Create a new `.mdx` file in the appropriate content directory (`content/projects/`, `content/publications/`, etc.)
-2. Add frontmatter with required fields
-3. Write content in Markdown below the frontmatter
-4. Add preview images to `public/images/`
-
-Example:
-
-```mdx
 ---
-title: "My Project"
-type: project
-summary: "A brief description of the project"
-tags: ["research", "data science"]
-previewImage: "/images/my-project.png"
-date: "2024-01-01"
+
+## Tech stack
+
+| Layer | Choice |
+|-------|--------|
+| Framework | Next.js 14 App Router (`output: 'export'` → static HTML) |
+| Language | TypeScript |
+| Styling | Tailwind CSS |
+| Content | MDX (gray-matter + next-mdx-remote) |
+| Validation | Zod v4 (schema-checked at build time) |
+| Deployment | GitHub Actions → GitHub Pages |
+
+---
+
+## Project structure
+
+```
+├── app/                        # Next.js App Router pages
+│   ├── page.tsx                # Home: hero, featured carousel, social links
+│   ├── about/page.tsx          # Portrait, CV download, affiliation timeline, 3-col block
+│   ├── research/page.tsx       # Publications grouped by type
+│   ├── data/page.tsx           # Datasets
+│   ├── consulting/page.tsx     # Consulting services
+│   ├── tools/page.tsx          # Tools list
+│   ├── engagement/page.tsx     # Talks + media
+│   ├── contact/page.tsx        # Contact info
+│   └── <type>/[slug]/page.tsx  # Detail pages (projects, publications, datasets, …)
+│
+├── components/                 # React components
+│   ├── Navbar.tsx              # Sticky top nav (desktop + mobile hamburger)
+│   ├── PageContainer.tsx       # Max-width wrapper
+│   ├── AboutBlock.tsx          # Home page hero text block
+│   ├── AffiliationPanel.tsx    # Employment/education timeline panel
+│   ├── AffiliationTimeline.tsx # Visual timeline within AffiliationPanel
+│   ├── ContentCarousel.tsx     # Horizontal swipe carousel
+│   ├── ContentGrid.tsx         # Responsive tile grid
+│   ├── ContentList.tsx         # Vertical list wrapper
+│   ├── ContentListItem.tsx     # Single list row
+│   ├── ContentTile.tsx         # Card with image + metadata
+│   ├── ContentDetail.tsx       # Shared detail page layout
+│   ├── PublicationListItem.tsx # Publication-specific list row
+│   ├── PublicationListByType.tsx  # Groups publications by type
+│   ├── RecentUpdatesPanel.tsx  # News feed sidebar
+│   ├── SocialLinks.tsx         # Social icon links
+│   └── Figure.tsx              # Image component for MDX body content
+│
+├── content/                    # MDX content files
+│   ├── affiliations.mdx        # Employment + education timeline (frontmatter-only)
+│   ├── updates/                # News feed entries (JS array format, not frontmatter)
+│   ├── projects/               # Research project pages
+│   ├── publications/           # Academic publications
+│   ├── datasets/               # Datasets
+│   ├── tools/                  # Tools
+│   ├── talks/                  # Conference talks
+│   └── media/                  # Media appearances
+│
+├── lib/                        # Utilities
+│   ├── types.ts                # ALL Zod schemas and TypeScript types
+│   ├── content.ts              # MDX reader, validator, build-time cache
+│   ├── siteConfig.ts           # Single source of truth: name, URL, email, socials
+│   ├── layout.ts               # Shared Tailwind class constants
+│   ├── contentPaths.ts         # Maps content type → URL segment
+│   ├── metadata.ts             # SEO metadata helpers
+│   ├── updates.ts              # Updates feed loader
+│   ├── icons.tsx               # Shared icon utilities
+│   └── typeColors.ts           # Content type → color mapping
+│
+├── scripts/
+│   ├── validate-content.ts     # Pre-deploy content validator (run before committing)
+│   └── import-from-wordpress.ts  # One-off WordPress import script
+│
+└── public/
+    ├── images/                 # All images (portraits, publications, logos, …)
+    │   └── logos/              # Institution logos for affiliation timeline
+    └── cv_andreas_juon.pdf     # CV file linked from About page
+```
+
+---
+
+## Content model
+
+All content types share a **base frontmatter schema** (validated by Zod at build time):
+
+### Required fields (all types)
+```yaml
+title: "…"
+summary: "…"          # shown on cards/lists/carousels
+tags: ["…"]
+previewImage: "/images/…"   # path relative to public/; file must exist
+```
+
+### Optional fields (all types)
+```yaml
+date: "YYYY-MM-DD"    # or "YYYY" for publications
+featured: 5           # int — higher number = more prominent on home carousel
 externalLinks:
-  code: "https://github.com/username/repo"
+  paper: "…"
+  code: "…"
+  data: "…"
+  demo: "…"
+  website: "…"
+relatedItems: ["slug1", "slug2"]   # slugs of any content type
+```
+
+### Publication-specific fields
+```yaml
+publicationType: peer-reviewed     # book | peer-reviewed | book-chapter | in-progress
+authors: ["Andreas Juon", "…"]
+year: "YYYY"
+journal: "…"           # or booktitle + editors for book chapters
+volume: "…"
+number: "…"
+status: under-review   # R&R | forthcoming | conditionally-accepted | under-review | first-draft | in-preparation
+publicationLinks:
+  pdf: "https://…"
+  doi: "https://…"
+  supplementary: "https://…"
+relatedProjects: ["slug"]
+relatedDatasets: ["slug"]
+```
+
+### Affiliations (`content/affiliations.mdx`)
+Uses a custom schema (`AffiliationsFrontmatterSchema`). Top-level keys: `dataType: affiliations`, `employment: []`, `education: []`. See `lib/types.ts` for the full field list.
+
+### Updates feed (`content/updates/*.mdx`)
+These files export a JS array — **not** frontmatter:
+```js
+export const updates = [
+  { id: 'YYYY-MM-DD-slug', date: 'YYYY-MM-DD', title: '…', summary: '…', href: '/…' },
+]
+```
+
 ---
 
-# My Project
+## Adding content
 
-Full project description in Markdown...
-```
+1. Copy the `_TEMPLATE.mdx` from the appropriate `content/<type>/` directory.
+2. Rename it following the slug convention (e.g. `juon2025_apsr.mdx`).
+3. Fill in frontmatter; delete unused optional fields.
+4. Add body text in Markdown. Use `<Figure>` for images.
+5. Add any images to `public/images/`.
+6. Run `npm run validate-content` and fix any errors.
+7. Commit.
 
-## Deployment
+---
 
-### GitHub Pages
-
-1. Push code to GitHub repository
-2. GitHub Actions will automatically build and deploy on push to `main` branch
-3. Configure GitHub Pages settings to use GitHub Actions as source
-
-### Custom Domain
-
-Update `next.config.js` to set `basePath` if deploying to a subdirectory, or remove it for root domain deployment.
-
-## Content Validation
-
-Run the content validation script to check for common issues before deploying:
+## Development workflow
 
 ```bash
-npm run validate-content
+npm install           # install dependencies
+npm run dev           # start dev server at localhost:3000
+npm run validate-content   # check frontmatter + image paths
+npm run lint          # ESLint
+npm run build         # static export → out/
 ```
 
-This checks for:
-- **Frontmatter schema violations**: Missing required fields (title, summary, tags, previewImage)
-- **Placeholder content**: Detects markers like `YOUR_ID`, `example.com`, `[Your ...`
-- **Broken image paths**: Ensures `previewImage` values resolve to files in `public/`
-- **Broken related items**: Ensures `relatedItems` slugs reference existing content
+### CI pipeline (`.github/workflows/`)
+On push to `main`: ESLint → validate-content → Next.js build → deploy to GitHub Pages.
 
-The validation script also runs automatically in CI before the build step.
+---
 
 ## Configuration
 
-- **Site Config**: Centralized site constants (name, URL, email, social links) in `lib/siteConfig.ts`
-- **Base Path**: Configure in `next.config.js` if deploying to subdirectory
-- **Site URL**: Set `NEXT_PUBLIC_SITE_URL` environment variable for SEO metadata
-- **Colors**: Customize in `tailwind.config.ts`
-- **Content Types**: Add new types in `lib/types.ts` and update content utilities
+| File | Purpose |
+|------|---------|
+| `lib/siteConfig.ts` | Name, URL, email, social links — edit here only |
+| `next.config.js` | `basePath`, `assetPrefix` for GitHub Pages subdirectory deploys |
+| `tailwind.config.ts` | Color palette, typography |
+| `tsconfig.json` | TypeScript paths (`@/*` → project root) |
 
-## Security Notes
+**Environment variables:**
+- `NEXT_PUBLIC_SITE_URL` — canonical site URL for SEO metadata
+- `GITHUB_PAGES_BASE_PATH` — repo name prefix for GitHub project site deploys (auto-set by CI)
 
-### MDX Content Trust Boundary
+---
 
-Content is rendered using `MDXRemote` from `next-mdx-remote/rsc`, which compiles and executes MDX at build time. MDX files can contain arbitrary JavaScript expressions and JSX components. This is safe as long as:
+## Security
 
-- **All content files are authored by trusted contributors** (i.e., the site owner)
-- **Content files are committed to the repository** and reviewed before merge
+MDX files are compiled and executed at **build time** by `next-mdx-remote`. This is safe as long as all content is authored by the site owner and committed to the repository. Do not accept untrusted MDX content contributions without switching to a sandboxed renderer.
 
-**If the repository ever accepts content contributions from untrusted sources** (e.g., open pull requests from external contributors), MDX rendering becomes a potential code execution vector. In that case, consider:
-
-1. Switching to a plain Markdown renderer (e.g., `react-markdown`) that does not execute code
-2. Adding a sandboxed build environment for untrusted PRs
-3. Implementing strict Content Security Policy headers
+---
 
 ## License
 

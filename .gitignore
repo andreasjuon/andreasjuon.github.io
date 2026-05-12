@@ -33,3 +33,12 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# internal / agent documentation — not for public repo
+README.md
+AGENTS.md
+CLAUDE.md
+CONTEXT.md
+docs/
+.claude/
+prompt.docx
