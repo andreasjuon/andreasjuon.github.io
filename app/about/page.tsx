@@ -3,7 +3,8 @@ import Image from 'next/image'
 import PageContainer from '@/components/PageContainer'
 import { CONTENT_FRAME_CLASS, INTRO_FRAME_CLASS, SECTION_GAP } from '@/lib/layout'
 import ContentCarousel from '@/components/ContentCarousel'
-import { getContentByType } from '@/lib/content'
+import { getContentByType, getAffiliations } from '@/lib/content'
+import AffiliationPanel from '@/components/AffiliationPanel'
 
 export const metadata: Metadata = {
   title: "About - Andreas Juon",
@@ -14,6 +15,7 @@ export const metadata: Metadata = {
 export default function AboutPage() {
   const projectItems = getContentByType('project')
   const datasetItems = getContentByType('dataset')
+  const { employment, education, minYear, maxYear } = getAffiliations()
 
   return (
     <PageContainer>
@@ -52,7 +54,7 @@ export default function AboutPage() {
                   workshops with conflict practitioners at University College
                   London), subject matter experts (~30 presentations at
                   international conferences and 11 published articles), students
-                  (in 6 different courses), and refugees (3 years' work)
+                  (in 6 different courses), and refugees (3 years&apos; work)
                 </li>
                 <li>
                   Regional expertise on former Soviet Union (3 scientific
@@ -116,8 +118,33 @@ export default function AboutPage() {
           </details>
         </div>
 
+        {/* Affiliations timeline: Employment*/}
+        <div className={`${CONTENT_FRAME_CLASS} mt-3`}>
+          <AffiliationPanel
+            title="Employment"
+            description="Formal employment affiliations over time."
+            items={employment}
+            minYear={minYear}
+            maxYear={maxYear}
+            minYearOverride={2016}
+            compactTimeline
+          />
+        </div>
+
+        {/* Affiliations timeline: Education */}
+        <div className={`${CONTENT_FRAME_CLASS} mt-3`}>
+          <AffiliationPanel
+            title="Education"
+            description="Educational affiliations, including degrees and programs."
+            items={education}
+            minYear={minYear}
+            maxYear={maxYear}
+            minYearOverride={2010}
+          />
+        </div>
+
         {/* Three-column section: Research, Data & Methods, Consulting */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8 mt-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-2 mt-2">
           {/* Research block */}
           <div className={INTRO_FRAME_CLASS}>
             <h2 className="text-2xl font-semibold text-gray-900 mb-4">

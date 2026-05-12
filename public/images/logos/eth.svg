@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 40" role="img" aria-labelledby="title desc">
+  <title id="title">ETH Zurich logo placeholder</title>
+  <desc id="desc">Simple placeholder logo for ETH Zurich, replace with official asset if desired.</desc>
+  <rect width="200" height="40" fill="#111827" rx="4" />
+  <text x="16" y="26" font-family="system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="18" fill="#F9FAFB">
+    ETH
+  </text>
+</svg>
+

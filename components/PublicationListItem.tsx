@@ -8,6 +8,7 @@ import { getExternalLinkIcon } from '@/lib/icons'
 
 const PUBLICATION_STATUS_LABELS: Record<string, string> = {
   forthcoming: 'Forthcoming',
+  'conditionally-accepted': 'Conditionally accepted',
   'under-review': 'Under review',
   'first-draft': 'First draft',
   'in-preparation': 'In preparation',

@@ -18,7 +18,14 @@ export const PublicationTypeSchema = z.enum(['book', 'peer-reviewed', 'book-chap
 export type PublicationType = z.infer<typeof PublicationTypeSchema>
 
 /** Publication status when not yet published */
-export const PublicationStatusSchema = z.enum(['R&R','forthcoming', 'under-review', 'first-draft', 'in-preparation'])
+export const PublicationStatusSchema = z.enum([
+  "R&R",
+  "forthcoming",
+  "conditionally-accepted",
+  "under-review",
+  "first-draft",
+  "in-preparation",
+]);
 export type PublicationStatus = z.infer<typeof PublicationStatusSchema>
 
 /** Publication-specific links (subtle, accessible) */
@@ -30,6 +37,36 @@ export const PublicationLinksSchema = z.object({
 }).optional()
 
 export type PublicationLinks = z.infer<typeof PublicationLinksSchema>
+
+/**
+ * Affiliations (employment / education) timeline data.
+ * Loaded from a dedicated MDX file, validated with Zod.
+ */
+export const AffiliationEntrySchema = z.object({
+  institution: z.string(),
+  // Full date precision for positioning on the timeline
+  startDate: z.string(),
+  endDate: z.string().nullable().optional(),
+  logo: z.string().optional(),
+  url: z.string().optional(),
+  // Optional descriptive fields depending on category
+  role: z.string().optional(),
+  degree: z.string().optional(),
+  field: z.string().optional(),
+  // Optional rich details used in hover/tap tooltips
+  details: z.string().optional(),
+  detailsPoints: z.array(z.string()).optional(),
+})
+
+export type AffiliationEntry = z.infer<typeof AffiliationEntrySchema>
+
+export const AffiliationsFrontmatterSchema = z.object({
+  dataType: z.literal('affiliations'),
+  employment: z.array(AffiliationEntrySchema).default([]),
+  education: z.array(AffiliationEntrySchema).default([]),
+})
+
+export type AffiliationsFrontmatter = z.infer<typeof AffiliationsFrontmatterSchema>
 
 /**
  * Schema for validating MDX frontmatter at build time.

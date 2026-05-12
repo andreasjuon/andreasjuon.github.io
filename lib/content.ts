@@ -1,7 +1,15 @@
 import fs from 'fs'
 import path from 'path'
 import matter from 'gray-matter'
-import { ContentItem, ContentType, ContentFrontmatterSchema, PublicationItem, PublicationType } from './types'
+import {
+  ContentItem,
+  ContentType,
+  ContentFrontmatterSchema,
+  PublicationItem,
+  PublicationType,
+  AffiliationsFrontmatter,
+  AffiliationsFrontmatterSchema,
+} from './types'
 import { typeToUrlSegment } from './contentPaths'
 
 // Re-export for server-side consumers (sitemap, ContentDetail, etc.)
@@ -134,6 +142,71 @@ export function getAllSlugs(type: ContentType): string[] {
   return files
     .filter((filename) => filename.match(/\.mdx?$/))
     .map((filename) => getSlugFromFilename(filename))
+}
+
+/**
+ * Load affiliations (employment / education) data from a dedicated MDX file.
+ * This bypasses the generic ContentFrontmatterSchema and uses a custom schema
+ * so we can model arbitrary timeline structures.
+ */
+export function getAffiliations(): AffiliationsFrontmatter & {
+  minYear: number;
+  maxYear: number;
+} {
+  const affiliationsPath = path.join(contentDirectory, 'affiliations.mdx')
+  if (!fs.existsSync(affiliationsPath)) {
+    throw new Error(`Affiliations content file not found at ${affiliationsPath}`)
+  }
+
+  const fileContents = fs.readFileSync(affiliationsPath, 'utf8')
+  const { data } = matter(fileContents)
+
+  // Runtime validation of the frontmatter
+  const parsed = AffiliationsFrontmatterSchema.safeParse(data)
+  if (!parsed.success) {
+    const errors = parsed.error.issues
+      .map((issue) => `  - ${issue.path.join('.')}: ${issue.message}`)
+      .join('\n')
+    throw new Error(`Invalid affiliations frontmatter in ${affiliationsPath}:\n${errors}`)
+  }
+
+  const affiliations = parsed.data
+
+  const allEntries = [...affiliations.employment, ...affiliations.education]
+  if (allEntries.length === 0) {
+    const currentYear = new Date().getFullYear()
+    return {
+      ...affiliations,
+      minYear: currentYear,
+      maxYear: currentYear,
+    }
+  }
+
+  const currentYear = new Date().getFullYear()
+
+  const yearValues: number[] = []
+
+  allEntries.forEach((entry) => {
+    const start = new Date(entry.startDate)
+    const startYear = start.getFullYear()
+    yearValues.push(startYear)
+
+    if (entry.endDate) {
+      const end = new Date(entry.endDate)
+      yearValues.push(end.getFullYear())
+    } else {
+      yearValues.push(currentYear)
+    }
+  })
+
+  const minYear = Math.min(...yearValues)
+  const maxYear = Math.max(...yearValues)
+
+  return {
+    ...affiliations,
+    minYear,
+    maxYear,
+  }
 }
 
 /** Publications linked to a specific project (by relatedProjects or relatedItems for backward compat) */

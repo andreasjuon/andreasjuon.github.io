@@ -75,6 +75,8 @@ export default function Home() {
             github={siteConfig.socialLinks.github}
             scholar={siteConfig.socialLinks.scholar}
             twitter={siteConfig.socialLinks.twitter}
+            bluesky={siteConfig.socialLinks.bluesky}
+            dataverse={siteConfig.socialLinks.dataverse}
             email={siteConfig.email}
           />
         </div>
