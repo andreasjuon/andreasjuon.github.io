@@ -15,6 +15,9 @@ export const typeToUrlSegment: Record<ContentType, string> = {
   tool: 'tools',
   talk: 'talks',
   media: 'media',
+  'conference-presentation': 'conference-presentations',
+  teaching: 'teaching',
+  'organized-workshop': 'organized-workshops',
 }
 
 /**
@@ -28,6 +31,9 @@ export const typeToListPath: Record<ContentType, string> = {
   tool: '/tools',
   talk: '/engagement',
   media: '/engagement',
+  'conference-presentation': '/engagement',
+  teaching: '/engagement',
+  'organized-workshop': '/engagement',
 }
 
 /** Returns the URL path for a content item (e.g. /projects/slug or /media/slug) */

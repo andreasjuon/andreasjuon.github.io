@@ -7,6 +7,9 @@ export const typeColors: Record<ContentType, string> = {
   tool: '#e6550d',
   talk: '#636363',
   media: '#de2d26',
+  'conference-presentation': '#2ca25f',
+  teaching: '#f768a1',
+  'organized-workshop': '#8856a7',
 }
 
 export function getTypeColor(type: ContentType): string {

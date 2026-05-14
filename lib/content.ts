@@ -52,7 +52,7 @@ export function getAllContentItems(): ContentItem[] {
   if (_cachedAllItems) return _cachedAllItems
 
   const allItems: ContentItem[] = []
-  const types: ContentType[] = ['project', 'publication', 'dataset', 'tool', 'talk', 'media']
+  const types: ContentType[] = ['project', 'publication', 'dataset', 'tool', 'talk', 'media', 'conference-presentation', 'teaching', 'organized-workshop']
 
   types.forEach((type) => {
     const typeDir = getContentDirectory(type)

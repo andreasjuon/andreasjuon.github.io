@@ -1,6 +1,6 @@
 import { z } from 'zod'
 
-export const ContentTypeSchema = z.enum(['project', 'publication', 'dataset', 'tool', 'talk', 'media'])
+export const ContentTypeSchema = z.enum(['project', 'publication', 'dataset', 'tool', 'talk', 'media', 'conference-presentation', 'teaching', 'organized-workshop'])
 export type ContentType = z.infer<typeof ContentTypeSchema>
 
 export const ExternalLinksSchema = z.object({
