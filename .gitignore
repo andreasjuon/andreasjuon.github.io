@@ -41,4 +41,5 @@ CLAUDE.md
 CONTEXT.md
 docs/
 .claude/
+.agents/
 prompt.docx
