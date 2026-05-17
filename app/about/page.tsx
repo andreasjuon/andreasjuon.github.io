@@ -64,58 +64,53 @@ export default function AboutPage() {
               </ul>
             </div>
           </div>
-        </div>
 
-        {/* Curriculum Vitae block */}
-        <div className={CONTENT_FRAME_CLASS}>
-          <h2 className="text-2xl font-semibold text-gray-900 mb-4">
-            Curriculum Vitae
-          </h2>
-          <p className="text-gray-700 mb-4">
-            You can browse my full CV below or download it as a PDF.
-          </p>
-
-          <div className="flex flex-wrap gap-3 mb-4">
-            <a
-              href="/cv_andreas_juon.pdf"
-              download
-              className="inline-flex items-center rounded-md bg-gray-900 px-4 py-2 text-sm font-medium text-white hover:bg-gray-800 focus:outline-none focus-visible:ring-2 focus-visible:ring-gray-900 focus-visible:ring-offset-2"
-            >
-              Download CV (PDF)
-            </a>
-            <a
-              href="/cv_andreas_juon.pdf"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center rounded-md border border-gray-300 px-4 py-2 text-sm font-medium text-gray-800 hover:bg-gray-50 focus:outline-none focus-visible:ring-2 focus-visible:ring-gray-300 focus-visible:ring-offset-2"
-            >
-              Open in new tab
-            </a>
-          </div>
-
-          <details className="mt-2">
-            <summary className="cursor-pointer text-sm font-medium text-gray-800">
-              View CV inline (PDF preview)
-            </summary>
-            <div className="mt-4">
-              <object
-                data="/cv_andreas_juon.pdf"
-                type="application/pdf"
-                className="w-full h-[600px] max-h-[80vh] rounded-lg border border-gray-200"
+          {/* CV actions — outside the portrait/text flex row so the PDF viewer doesn't shift the portrait */}
+          <div className="mt-6 border-t border-gray-200 pt-5">
+            <div className="flex flex-wrap items-center gap-3">
+              <span className="text-base font-semibold text-gray-900 mr-1">
+                Curriculum Vitae
+              </span>
+              <a
+                href="/cv_andreas_juon.pdf"
+                download
+                className="inline-flex items-center rounded-md bg-gray-900 px-4 py-2 text-sm font-medium text-white hover:bg-gray-700 transition-colors"
               >
-                <p className="text-gray-700">
-                  Your browser does not support embedded PDFs. You can{" "}
-                  <a
-                    href="/cv_andreas_juon.pdf"
-                    className="underline text-gray-900"
+                Download PDF
+              </a>
+              <a
+                href="/cv_andreas_juon.pdf"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center rounded-md border border-gray-300 px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors"
+              >
+                Open in new tab
+              </a>
+              <details className="w-full">
+                <summary className="cursor-pointer inline-flex items-center gap-1 text-sm text-gray-600 hover:text-gray-900 [list-style:none] [&::-webkit-details-marker]:hidden">
+                  ▾ View inline
+                </summary>
+                <div className="mt-4">
+                  <object
+                    data="/cv_andreas_juon.pdf"
+                    type="application/pdf"
+                    className="w-full h-[720px] max-h-[80vh] rounded-lg border border-gray-200"
                   >
-                    download the CV here
-                  </a>
-                  .
-                </p>
-              </object>
+                    <p className="text-gray-700">
+                      Your browser does not support embedded PDFs.{" "}
+                      <a
+                        href="/cv_andreas_juon.pdf"
+                        className="underline text-gray-900"
+                      >
+                        Download the CV here
+                      </a>
+                      .
+                    </p>
+                  </object>
+                </div>
+              </details>
             </div>
-          </details>
+          </div>
         </div>
 
         {/* Affiliations timeline: Employment*/}
