@@ -4,6 +4,7 @@ import { getExternalLinkIcon } from '@/lib/icons'
 import Image from 'next/image'
 import Link from 'next/link'
 import ContentTile from './ContentTile'
+import ContentCarousel from './ContentCarousel'
 import PublicationListByType from './PublicationListByType'
 import { MDXRemote } from 'next-mdx-remote/rsc'
 import remarkGfm from 'remark-gfm'
@@ -366,11 +367,7 @@ export default function ContentDetail({ type, slug }: ContentDetailProps) {
       {relatedItems.length > 0 && (
         <div className="mb-8">
           <h2 className="text-2xl font-semibold text-gray-900 mb-6">Related Items</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {relatedItems.map((relatedItem) => (
-              <ContentTile key={`${relatedItem.type}-${relatedItem.slug}`} item={relatedItem} />
-            ))}
-          </div>
+          <ContentCarousel items={relatedItems} />
         </div>
       )}
 
