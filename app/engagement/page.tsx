@@ -1,4 +1,4 @@
-import { getContentByType } from '@/lib/content'
+import { getContentByType, resolvePreviewImage } from '@/lib/content'
 import { INTRO_FRAME_CLASS, SECTION_GAP } from '@/lib/layout'
 import PageContainer from '@/components/PageContainer'
 import EngagementFilter from '@/components/EngagementFilter'
@@ -22,12 +22,14 @@ export default function EngagementPage() {
     ...media,
     ...teaching,
     ...organizedWorkshops,
-  ].sort((a, b) => {
-    if (!a.date && !b.date) return 0
-    if (!a.date) return 1
-    if (!b.date) return -1
-    return new Date(b.date).getTime() - new Date(a.date).getTime()
-  })
+  ]
+    .sort((a, b) => {
+      if (!a.date && !b.date) return 0
+      if (!a.date) return 1
+      if (!b.date) return -1
+      return new Date(b.date).getTime() - new Date(a.date).getTime()
+    })
+    .map((item) => ({ ...item, previewImage: resolvePreviewImage(item) }))
 
   return (
     <PageContainer>

@@ -210,6 +210,34 @@ export function getAffiliations(): AffiliationsFrontmatter & {
   }
 }
 
+const PLACEHOLDER_PREFIX = '/images/placeholders/'
+
+/**
+ * Returns the best preview image for an item:
+ * custom image > related publication image > related project image > placeholder.
+ */
+export function resolvePreviewImage(item: ContentItem): string {
+  if (!item.previewImage.startsWith(PLACEHOLDER_PREFIX)) return item.previewImage
+  if (!item.relatedItems || item.relatedItems.length === 0) return item.previewImage
+
+  const allItems = getAllContentItems()
+  const related = item.relatedItems
+    .map((slug) => allItems.find((i) => i.slug === slug))
+    .filter((i): i is ContentItem => i !== undefined)
+
+  const relatedPub = related.find(
+    (i) => i.type === 'publication' && !i.previewImage.startsWith(PLACEHOLDER_PREFIX)
+  )
+  if (relatedPub) return relatedPub.previewImage
+
+  const relatedProject = related.find(
+    (i) => i.type === 'project' && !i.previewImage.startsWith(PLACEHOLDER_PREFIX)
+  )
+  if (relatedProject) return relatedProject.previewImage
+
+  return item.previewImage
+}
+
 /** Publications linked to a specific project (by relatedProjects or relatedItems for backward compat) */
 export function getPublicationsByProject(projectSlug: string): PublicationItem[] {
   const publications = getContentByType('publication') as PublicationItem[]

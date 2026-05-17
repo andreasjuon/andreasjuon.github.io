@@ -1,4 +1,4 @@
-import { getContentBySlug, getRelatedItems, getPublicationsByProject, typeToUrlSegment, typeToListPath } from '@/lib/content'
+import { getContentBySlug, getRelatedItems, getPublicationsByProject, resolvePreviewImage, typeToUrlSegment, typeToListPath } from '@/lib/content'
 import { ContentType, PublicationItem } from '@/lib/types'
 import { getExternalLinkIcon } from '@/lib/icons'
 import Image from 'next/image'
@@ -27,6 +27,7 @@ export default function ContentDetail({ type, slug }: ContentDetailProps) {
   }
 
   const relatedItems = getRelatedItems(item)
+  const headerImage = resolvePreviewImage(item)
 
   return (
     <>
@@ -35,7 +36,7 @@ export default function ContentDetail({ type, slug }: ContentDetailProps) {
         <div className="mb-6">
           <div className="relative w-full h-64 md:h-96 rounded-lg overflow-hidden mb-6">
             <Image
-              src={item.previewImage}
+              src={headerImage}
               alt={item.title}
               fill
               className="object-cover"

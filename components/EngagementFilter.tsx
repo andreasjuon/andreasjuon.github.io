@@ -25,7 +25,8 @@ const TYPE_LABELS: Record<ContentType, string> = {
   'organized-workshop': 'Organized Workshops',
 }
 
-const PAGE_SIZE = 10
+const PAGE_SIZE_OPTIONS = [5, 10, 25, 50]
+const DEFAULT_PAGE_SIZE = 10
 
 interface EngagementFilterProps {
   items: ContentItem[]
@@ -36,12 +37,18 @@ export default function EngagementFilter({ items }: EngagementFilterProps) {
     new Set(ENGAGEMENT_TYPES)
   )
   const [page, setPage] = useState(1)
+  const [pageSize, setPageSize] = useState(DEFAULT_PAGE_SIZE)
 
   function toggleType(type: ContentType) {
     setActiveTypes((prev) => {
+      if (prev.size === ENGAGEMENT_TYPES.length) {
+        // All active: focus on this single type
+        return new Set([type])
+      }
       const next = new Set(prev)
       if (next.has(type)) {
-        if (next.size === 1) return prev // keep at least one active
+        // Deselecting the last active type resets to all
+        if (next.size === 1) return new Set(ENGAGEMENT_TYPES)
         next.delete(type)
       } else {
         next.add(type)
@@ -56,14 +63,19 @@ export default function EngagementFilter({ items }: EngagementFilterProps) {
     setPage(1)
   }
 
+  function handlePageSizeChange(size: number) {
+    setPageSize(size)
+    setPage(1)
+  }
+
   const filtered = useMemo(
     () => items.filter((item) => activeTypes.has(item.type as ContentType)),
     [items, activeTypes]
   )
 
-  const totalPages = Math.max(1, Math.ceil(filtered.length / PAGE_SIZE))
+  const totalPages = Math.max(1, Math.ceil(filtered.length / pageSize))
   const currentPage = Math.min(page, totalPages)
-  const pageItems = filtered.slice((currentPage - 1) * PAGE_SIZE, currentPage * PAGE_SIZE)
+  const pageItems = filtered.slice((currentPage - 1) * pageSize, currentPage * pageSize)
 
   const allActive = activeTypes.size === ENGAGEMENT_TYPES.length
 
@@ -95,9 +107,9 @@ export default function EngagementFilter({ items }: EngagementFilterProps) {
               onClick={() => toggleType(type)}
               className="px-3 py-1.5 rounded-full text-sm font-medium border transition-all"
               style={{
-                backgroundColor: active ? color : 'white',
+                backgroundColor: active && !allActive ? color : 'white',
                 borderColor: color,
-                color: active ? 'white' : color,
+                color: active && !allActive ? 'white' : color,
               }}
             >
               {TYPE_LABELS[type]}
@@ -106,12 +118,30 @@ export default function EngagementFilter({ items }: EngagementFilterProps) {
         })}
       </div>
 
-      {/* Result count */}
-      <p className="text-sm text-gray-500 mb-4">
-        {filtered.length === 0
-          ? 'No items match the selected categories.'
-          : `Showing ${(currentPage - 1) * PAGE_SIZE + 1}–${Math.min(currentPage * PAGE_SIZE, filtered.length)} of ${filtered.length} items`}
-      </p>
+      {/* Result count + page size selector */}
+      <div className="flex flex-wrap items-center justify-between gap-2 mb-4">
+        <p className="text-sm text-gray-500">
+          {filtered.length === 0
+            ? 'No items match the selected categories.'
+            : `Showing ${(currentPage - 1) * pageSize + 1}–${Math.min(currentPage * pageSize, filtered.length)} of ${filtered.length} items`}
+        </p>
+        <div className="flex items-center gap-1.5 text-sm text-gray-500">
+          <span>Per page:</span>
+          {PAGE_SIZE_OPTIONS.map((size) => (
+            <button
+              key={size}
+              onClick={() => handlePageSizeChange(size)}
+              className={`px-2 py-0.5 rounded border text-xs font-medium transition-colors ${
+                pageSize === size
+                  ? 'bg-gray-800 text-white border-gray-800'
+                  : 'bg-white text-gray-600 border-gray-300 hover:border-gray-500'
+              }`}
+            >
+              {size}
+            </button>
+          ))}
+        </div>
+      </div>
 
       {/* List */}
       {pageItems.length > 0 ? (
