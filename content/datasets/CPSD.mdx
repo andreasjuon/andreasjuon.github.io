@@ -11,4 +11,101 @@ externalLinks:
 relatedItems: ["power-sharing"]
 ---
 
-As part of my projects on power-sharing and regional autonomy, I have created the Constitutional Power-Sharing Dataset (CPSD). This dataset contains detailed indicators on formal power-sharing provisions found in state constitutions and autonomy statutes targeting politically significant ethnic minorities. The current version (v.1.2) codes institutions mandating the inclusion of minorities into national government as well as providing them with influence over political decision-making. It contains data for minorities settling in 174 countries and for the time period between 1945 and 2016. I have finished collecting a new, thoroughly updated version of the CPSD. This will encompass significantly more group years (~180 countries, 1945-2018). Future versions will extend the coverage to other forms of constitutional peacebuilding, including regional autonomy, economic accommodation and cultural recognition. An interactive dashboard enabling researchers and the public to explore constitutional peacebuilding efforts since World War II more broadly is in development.
+The Constitutional Power-Sharing Dataset (CPSD) is an original dataset I collected to enable systematic, cross-national measurement of constitutionally entrenched power-sharing. The current version — CPSD 2.0 — covers 181 states since World War II or independence (1945–2018) and provides over 100 discrete indicators capturing the full institutional variety of constitutional power-sharing, linked to the ethnic group level. The CPSD is the primary data resource for my book *Terminating the War, Losing the Peace?* (Juon forthcoming) and has been used in a series of published articles.
+
+## Motivation and policy relevance
+
+Power-sharing — the constitutionally entrenched inclusion of diverse ethnic groups in government — has spread steadily since the end of the Cold War and is now a standard prescription for managing ethnically divided and post-conflict societies. Despite this prominence, systematic cross-national evidence on its consequences has lagged behind case-based research. That research has overwhelmingly focused on a narrow set of prominent "full consociations" — most of them severe post-conflict cases such as Bosnia, Lebanon, Northern Ireland, and Burundi. This creates risks of selection bias and limited generalizability, especially to the large and growing number of countries that have institutionalized selective or partial power-sharing arrangements. Many of these cases — including Uruguay's Swiss-style collegiate executive in the 1950s and 1960s, Nigeria's territorially-based power-sharing system since 1999, Nepal's encompassing post-civil-war constitution of 2015, the Comoros' island-rotation presidency since 2001, and Ghana's inter-ethnic pact of 1969 — are barely discussed in the case-based literature, yet represent important instances of constitutional power-sharing from which the field can learn.
+
+Existing cross-national datasets only partially address this gap. Behavioural datasets such as the Ethnic Power Relations (EPR) dataset code whether ethnic groups are actually included in the executive, but are agnostic about the institutional basis of that inclusion: a group may be represented due to an informal, ad-hoc coalition just as easily as due to a constitutionally mandated quota, and these two situations can have very different consequences for peace and legitimacy. Datasets based on peace treaties measure power-sharing provisions in post-conflict settlements, but most of these provisions are not constitutionally entrenched and frequently fail to be implemented; this also limits their coverage to post-conflict contexts, making it impossible to assess whether power-sharing prevented conflict in other settings. The most comprehensive institutional dataset, the Inclusion, Dispersion, and Constraint (IDC) database, captures inclusive power-sharing through six mostly binary indicators and covers the years 1975–2010. While an important advance, it does not distinguish between corporate and liberal subtypes, does not link institutions to individual ethnic groups, and omits a large number of liberal institutional forms — such as low vote thresholds for executive inclusion and supermajority requirements in the legislative process — that the CPSD captures systematically.
+
+The CPSD addresses these gaps by measuring the formal constitutional provisions that mandate or encourage power-sharing, distinguishing between its corporate and liberal subtypes, and connecting institutions to the ethnic groups they affect. This enables researchers to examine questions that existing data cannot answer: Which groups benefit from constitutional guarantees, and which are excluded or disadvantaged despite nominal power-sharing? Do corporate and liberal arrangements differ in their consequences for peace, democratic quality, and political legitimacy? And do these effects vary depending on a group's constitutional status — whether it is formally recognized, informally included, or left out altogether?
+
+## Advantages over existing datasets
+
+Compared to existing databases, the CPSD has three key advantages.
+
+**Conceptual comprehensiveness.** The CPSD measures constitutional power-sharing in close alignment with Arend Lijphart's concept of consociational democracy, focusing on his three inclusive principles — grand coalitions, proportional representation, and mutual veto rights. Rather than capturing only one or two of these principles in isolation, or relying on very broad operationalizations that subsume institutions unrelated to Lijphart's framework, the CPSD codes more than 100 discrete constitutional indicators capturing the full range of ways each principle can be realized. Wherever possible, these are measured in a continuous rather than binary fashion, capturing the *degree* to which a group is protected — for instance, the exact share of parliamentary seats reserved for a group rather than simply whether a quota exists.
+
+**Corporate–liberal distinction.** The CPSD is the first cross-national dataset to systematically distinguish between the two main institutional subtypes of power-sharing. *Corporate* power-sharing relies on rigid, ethnically targeted guarantees: Belgium's constitution divides the cabinet between French and Flemish speakers; Bosnia's recognizes three "constituent peoples" — Bosniaks, Serbs, and Croats — and guarantees each representation across all major state institutions; Lebanon's confessional system reserves the presidency, prime ministership, and parliamentary speaker for specific religious communities. *Liberal* power-sharing instead encourages inclusion indirectly through electoral rules that remain formally group-blind: South Africa's 1993 transition constitution awarded cabinet seats to all parties winning at least 5% of votes; Nigeria's constitution requires presidential candidates to obtain minimum support across a specified number of states, incentivizing broad ethnic coalition-building; Iraq's 2004–2005 constitutions required a supermajority for the election of the Presidential Council. These two approaches generate systematically different consequences for peace, democratic quality, and political legitimacy (Juon & Bochsler 2022, *The Two Faces of Power-Sharing*; Bochsler & Juon 2021, *Power-Sharing and Democracy*).
+
+**Group-level measurement.** Corporate institutions in particular distribute their protections unequally across groups — a fact that country-level measures cannot capture. Bosnia is the clearest illustration: while Bosniaks, Serbs, and Croats are constitutionally recognized as constituent peoples and guaranteed representation in the presidency and the House of Peoples, Jewish and Roma citizens are institutionally excluded from both offices altogether. A country-level measure assigns Bosnia a high power-sharing score; only a group-level measure reveals that power-sharing is simultaneously inclusive and exclusionary, depending on which group one is looking at. The CPSD connects all applicable indicators to individual ethnic groups drawn from EPR, enabling researchers to study these differential institutional attainments directly (Juon 2020, *Minorities Overlooked*).
+
+<Figure src="/images/publications/juon2027_terminating_war/fig1.1.png" caption="Figure 1. Constitutional power-sharing institutions (CPSD), 1945–2018 (global average across all non-core groups)." align="center" width={800} />
+
+## Data collection
+
+The CPSD's data collection proceeds in two steps. In the first step, I screened each state's primary legal documents — principally the constitution and, where relevant, electoral laws — to record raw country-year information for each of the more than 100 institutional indicators covered by the CPSD. Constitutions were manually coded for each country year, guided by the Comparative Constitutions Project (CCP). Data on electoral systems were drawn from several established sources (IAEP, DPI, Bormann & Golder 2013, Carey & Hix 2011) and augmented with manually collected data where needed. For each coding decision, I recorded the constitutional or legal article forming the basis of the decision, along with any secondary sources consulted, ensuring transparency and reproducibility.
+
+In the second step, I linked the recorded country-year institutions to individual ethnic groups. The procedure depended on how a given institution identifies the groups it targets:
+
+* **Ethnically targeted institutions** (e.g., ethnic cabinet quotas) were linked to groups by name.
+* **Organization-based institutions** (e.g., quotas for specific parties or movements) were linked to groups via organizational claims of representation.
+* **Country-level electoral institutions** (e.g., proportional electoral systems, supermajority requirements) were assigned equally to all ethnic groups active in a given country year.
+* **Territorial institutions** (e.g., territorially divided upper houses, regionally based quotas) were aggregated to the ethnic group level by computing the spatial intersections between group settlement areas (from Geo-EPR) and geocoded administrative boundaries (from my Significant Administrative Unit Dataset, SAU).
+
+The resulting group-level indicators are mostly continuous, normalized to values between 0 and 1. The CPSD covers 181 countries and 10,356 country years, with groups drawn from an augmented version of EPR covering 1,441 groups and approximately 80,700 group years.
+
+## Institutions coded
+
+The CPSD captures three inclusive principles, each through a range of corporate, mixed (territorial), and liberal institutional variants:
+
+### Grand coalition provisions
+
+Grand coalition provisions aim to ensure the inclusion of political leaders from all significant societal segments in the executive. The CPSD codes such provisions for a range of government offices — head of state, head of government, their deputies, cabinet, speakers of each parliamentary chamber, and permanent minority advisory commissions. Institutions coded include:
+
+* **Ethnic and organization-based quotas and linkages** for executive positions (e.g., Belgium's constitutionally mandated French–Flemish cabinet balance; Sudan's 2005 North–South executive linkage)
+* **Territorial quotas** for executive positions (e.g., territorially divided upper houses or regional rotation rules)
+* **Rotation rules** requiring executive positions to alternate between groups (e.g., the Comoros presidency rotating between the three main islands under the 2001 constitution)
+* **Vote spread requirements** for executive elections (e.g., Nigeria's requirement that presidential candidates obtain a minimum share of votes across a specified number of states)
+* **Low vote thresholds** entitling parties to executive representation (e.g., South Africa's 1993 constitution awarding cabinet seats to all parties above 5%; Fiji's 1997 constitution awarding them to parties above 10%)
+* **Supermajority requirements** for executive elections (e.g., Iraq's 2004–2005 supermajority requirement for the Presidential Council, ensuring broad-based executive support during the transitional period)
+
+### Proportional representation
+
+Proportional representation provisions encourage a roughly proportional distribution of influence in parliament between ethnic groups. The CPSD codes:
+
+* **Ethnic, organization-based, and territorial legislative quotas** (e.g., Bosnia's reserved seats for Bosniaks, Serbs, and Croats in the House of Peoples; territorial allocation of seats across the Federation and Republika Srpska in the House of Representatives)
+* **Electorally based quotas** distributing seats based on electoral outcomes
+* **Electoral system proportionality**, measured continuously using the Lijphart proportionality formula, accounting for district magnitude and legal thresholds (e.g., Israel's highly proportional system with a single national district and a 3% threshold)
+
+Up to three legislative chambers are coded for each country.
+
+### Mutual veto rights
+
+Mutual veto provisions ensure that non-core groups have meaningful influence over key political decisions. The CPSD codes:
+
+* **Explicit ethnic or organization-based veto rights** over constitutional amendments or general legislation (e.g., North Macedonia's requirement that amendments to minority-related provisions require approval from a majority of minority delegates alongside the parliamentary majority)
+* **Territorial veto rights** over constitutional amendments or legislation (e.g., Iraq's provision requiring approval from a regional legislative assembly before amendments can take away that region's powers)
+* **Supermajority requirements** for constitutional amendments or legislation, which function as indirect veto provisions for groups with parliamentary representation above the blocking threshold (e.g., Burundi, where a 40% Tutsi parliamentary quota in combination with a two-thirds legislative majority requirement effectively grants Tutsi an ethnically-based veto over ordinary legislation)
+
+<Figure src="/images/publications/juon_bochsler2022_two_faces/ps_var.png" caption="Figure 2. CPSD main indicators and aggregation steps, illustrating the coverage of corporate, mixed, and liberal institutions across the three inclusive principles." align="right" width={500} />
+
+## Aggregation into indices
+
+In addition to the full set of group-level indicators, the CPSD provides three aggregate index measures — overall, corporate, and liberal power-sharing — each ranging from 0 to 1. The aggregation follows four principles:
+
+* **Substitutability within components**: institutions realizing the same principle (e.g., ethnic quotas and proportional electoral systems both encouraging legislative representation) are treated as mutually substitutable.
+* **Non-substitutability between components**: high values on one principle (e.g., grand coalition) cannot compensate for the complete absence of another (e.g., veto rights), reflecting Lijphart's view that the three principles are mutually reinforcing.
+* **Diverging component weights**: grand coalition provisions receive the highest weight (4), mutual veto provisions a medium weight (2), and proportional representation provisions the lowest weight (1), reflecting their respective restrictiveness on majority rule.
+* **Constitutional consistency**: institutions of a given type are only counted if the constitution does not internally contradict them (e.g., corporate institutions are discounted where the constitution voices an exclusive preference for one group without a countervailing equality clause; liberal institutions are discounted where the constitution establishes a one-party state).
+
+For the corporate and liberal indices, territorial institutions are proportionally divided between both indices based on the degree of spatial alignment between targeted administrative boundaries and group settlement areas — the more ethnically homogeneous the targeted territorial unit, the larger the share attributed to the corporate index.
+
+<Figure src="/images/publications/juon_bochsler2022_two_faces/ps_corplib.png" caption="Figure 3. CPSD: distinction between corporate and liberal power-sharing institutions." align="right" width={500} />
+
+## Coverage and validation
+
+The CPSD's highest-scoring cases align closely with those identified in the case-based literature on consociational democracy, including all classic consociations discussed by Lijphart — Belgium, Switzerland, Lebanon, Cyprus, Burundi, Fiji, Bosnia, North Macedonia, Kosovo, South Africa — as well as additional cases such as Nepal, the Comoros, Iraq, South Sudan, Yemen, and Uruguay that receive less attention in the qualitative literature but are equally important for avoiding selection bias. Cases coded as the most corporate (Bosnia, Belgium, Cyprus, Lebanon) and most liberal (South Africa 1993–1995, Nigeria since 1999, Fiji 1997–2008, Iraq 2004–2009) also correspond to existing scholarly classifications. The CPSD's aggregate indices correlate meaningfully with the most closely related existing dataset, the IDC (Strøm et al. 2015), particularly between the IDC's inclusive dimension and the CPSD's corporate index (r = 0.63) and between the IDC's constraining dimension and the CPSD's liberal index (r = 0.41).
+
+The data are available at the Harvard Dataverse (v.1.2: DOI 10.7910/DVN/OBIFLV; v.2.0: DOI 10.7910/DVN/TGVJYT).
+
+## Use in published research
+
+A central motivation for the CPSD is that systematic cross-national measurement can move beyond the isolated prominent cases — Bosnia, Lebanon, Northern Ireland — that dominate the existing literature and often paint an unduly bleak picture of power-sharing's prospects. Viewed across a globally representative sample, the cross-national evidence is considerably more positive: constitutional power-sharing meaningfully reduces the risk of ethnic civil war, and liberal arrangements consistently promote democratic progress (Juon & Bochsler 2022, *The Two Faces of Power-Sharing*; Bochsler & Juon 2021, *Power-Sharing and Democracy*). The systematic evidence also reveals that international diffusion of power-sharing templates is substantial — suggesting that mediators' constitutional models travel across cases in ways that cannot be discerned from isolated case analyses (Bochsler & Juon 2023, *Democracy Promotion Through Power-Sharing*).
+
+At the same time, the cross-national analysis highlights specific challenges and difficult tradeoffs that the focus on prominent cases had already suggested but could not systematically document. Corporate arrangements strongly reduce violence among recognized groups but generate an exclusion-amid-inclusion dilemma: the smallest and most vulnerable minorities are frequently left behind or actively marginalized, and their members report higher grievances and weaker institutional satisfaction (Juon 2020, *Minorities Overlooked*; Juon 2023, *Inclusion, Recognition, and Inter-Group Comparisons*). Liberal arrangements avoid this problem but deliver weaker and less enforceable guarantees. Both types face a further challenge: rather than gradually depoliticizing ethnicity, prolonged exposure to power-sharing — particularly its corporate variant — keeps ethnic identities salient, with citizens remaining more likely to identify primarily as group members and to vote for ethnically-based parties (Juon 2025, *The Long-Term Consequences of Power-Sharing for Ethnic Salience*). Taken together, the CPSD-based evidence points to difficult tradeoffs between the depth and scope of inclusion, the rights of recognized minorities and the grievances of excluded ones, and the imperatives of short-term conflict prevention and long-term societal integration (Juon forthcoming, *Terminating the War, Losing the Peace?*).
+
+## Planned updates
+
+Future versions of the CPSD are planned as part of a wider database of constitutional nation- and state-building. This extended database will integrate the CPSD's power-sharing measures with indicators capturing complementary accommodation strategies — including regional autonomy, multiculturalism, affirmative action, and redistributive policies — as well as integrationist alternatives such as assimilation policies, ethnic party bans, and the promotion of a unified national identity.

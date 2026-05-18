@@ -12,4 +12,64 @@ externalLinks:
 relatedItems: ["power_sharing","autonomy"]
 ---
 
-To set up my project on regional autonomy, I created the Significant Administrative Unit Dataset (SAU). This compiles geo-referenced data on first-order administrative units, autonomous regions (at different administrative levels), and statistical regions. To collect this data, I combined my own geo-coding based on historical maps with publicly-available data provided by GADM. The resulting dataset contains more than 8900 unique administrative unit-periods and enables detailed investigations into spatial dynamics at the subnational level. I also used SEAMS to aggregate territorial power-sharing measures onto the ethnic group level for various indicators in my Constitutional Power-Sharing Dataset (CPSD). A first version of SAU covering the time period 1988-2018 (6152 unique admin unit-time periods) is available here.
+The Significant Administrative Units Dataset (SAU database) is an original geospatial dataset I collected to enable systematic, cross-national analysis of subnational administrative and autonomous units across the postwar period. The current version — SAU 2.0 — covers 180 countries from 1945 to 2018, providing 8,397 geocoded unit-period polygons representing first-order administrative units, lower-level autonomous regions, and special constitutional regions. The dataset is available at Harvard Dataverse (DOI: 10.7910/DVN/ARAU42).
+
+## Motivation
+
+Studying territorial politics — ethnic autonomy, regional self-governance, federalism, administrative decentralization — requires precise, geographically referenced information on where subnational units are, when they exist, and what formal status they carry. Research questions in this area typically require knowing not just the boundaries of administrative divisions, but also which of those divisions carry a special constitutional status as autonomous regions, when that status was granted or revoked, and how administrative geographies evolved over the postwar decades. These are the questions the SAU database was built to answer.
+
+Off-the-shelf boundary datasets such as GADM provide excellent contemporary coverage but are not designed for longitudinal research: they do not track boundary changes over time, do not distinguish between first-order administrative divisions and autonomous units at other levels, and do not record the political significance of subnational units as constitutional or legal categories. The SAU database fills this gap by combining publicly available geographic data with manual georeferencing of historical maps, yielding a temporally consistent panel of administrative boundaries well suited for spatial and statistical analyses in comparative politics.
+
+Beyond its primary use in research on territorial autonomy, the SAU database also provides the spatial infrastructure for two of my other original datasets — the Constitutional Power-Sharing Dataset (CPSD) and the Standardized Ethnically Attributed Mass Surveys (SEAMS) database — connecting it tightly to a broader data infrastructure for the cross-national study of ethnic politics and conflict.
+
+## Data collection
+
+<Figure src="/images/data/sau_backwards_agg.jpg" caption="Figure 1. Internal administrative boundaries of Nigeria, 1991-2018. This illustrates the backwards aggregation procedure: Bayelsa state split from river state in 1996 (areas colored in red) and Bendel state split into Delta and Edo states in 1991 (areas colored in blue).
+" align="center" width={700} />
+
+<Figure src="/images/data/sau_geocoding.jpg" caption="Figure 2.Geo-referenced map of Côte d'Ivoire in 2004. Note: Manually coded polygons overlaid in red.
+" align="right" width={400} />
+
+The SAU database's geographic information is compiled from three sources, each used for a distinct portion of the data.
+
+**GADM polygons** serve as the base layer for all countries from 1988 onwards. GADM provides highly detailed, georeferenced administrative boundary files at multiple levels. Because GADM files reflect recent boundaries as of roughly 2010–2015, I supplemented them with temporal information from two secondary sources — Statoids.com and Law (2010) — to assign start and end dates to each unit and to record boundary changes, unit dissolutions, and the creation of new administrative divisions.
+
+**ESRI 1998 boundaries** are used as a fallback for cases where GADM coverage is insufficient or where the earliest available boundary file does not capture pre-1988 configurations accurately. This source provides an independent snapshot of administrative boundaries as of the late 1990s.
+
+**Historical map georeferencing** was used to extend coverage back to 1945 for countries whose administrative geographies changed substantially before GADM's coverage window. Historical maps were sourced from the Perry–Castañeda Library (PCL), the David Rumsey Map Collection, and Old Maps Online. Polygons were digitized manually in QGIS by tracing the boundaries visible on scanned historical maps and georeferencing these tracings against known coordinate grids.
+
+The three data streams were combined using a layered procedure: backward aggregation (starting from the most recent available boundary and adjusting for recorded changes, see figure 1 for an example), ESRI 1998 as an intermediate anchor, and historical georeferencing to extend coverage where necessary (see figure 2 for an example). Each unit-period in the dataset records both start and end dates and a reason for termination (e.g., boundary change, independence, dissolution).
+
+<Figure src="/images/data/years_FO_animated.gif" caption="Figure 3. Temporal coverage of first-order administrative units in the SAU database, 1945–2018, illustrating how boundary configurations change over time as units are created, dissolved, or reorganized." align="center" width={700} />
+
+## Unit types and key variables
+
+The SAU database distinguishes three types of subnational units, identified by separate binary flags:
+
+* **First-order administrative units** (FO): the top level of a state's standard administrative division — provinces, states, *Länder*, departments, or equivalent. Every country in the dataset is covered at this level.
+* **Autonomous regions** (AR): units at any administrative level that carry a constitutional or legal designation granting them a distinct degree of self-governance, beyond what applies to standard first-order units. These include fully fledged federal subunits with legislative competencies, special autonomous regions, and sub-state territorial entities recognized in autonomy statutes.
+* **Special constitutional regions** (SR): units that play a defined role in constitutional politics without necessarily carrying autonomous competencies — including regions that serve as electoral constituencies for upper-chamber representation, regions defined by constitutional rotation rules, or other units that carry formal political significance in the constitutional text.
+
+Units can carry more than one flag simultaneously — for example, a federal state that also serves as a constitutional constituency.
+
+In addition to type flags, the SAU database records for each unit: the country (COW numeric code), a FIPS code where applicable, the official administrative name (ADMIN_NAME), the type label used in the original source (ENGTYPE_1), start and end years, the reason for termination, and hierarchical linkages to subunits and superunits within the same dataset.
+
+<Figure src="/images/publications/juon2025_autonomy_tradeoff/figure3.png" caption="Figure 4. Autonomous administrative units (based on SAU) and occurrences of civil and communal violence (from my recent publication: Juon 2025, Territorial Autonomy and the Trade-off between Civil and Communal Violence)." align="right" width={500} />
+
+## Use in published research
+
+I have so far used the SAU database in three peer-reviewed publications, each relying on its longitudinal boundary data to examine how territorial autonomy shapes ethnic group behavior and political violence.
+
+In joint work with Daniel Bochsler, the SAU database has provided the boundary polygons needed to identify autonomous region configurations across the postwar period and to locate them relative to ethnic group settlement areas — enabling the first cross-national analysis of how the spatial alignment between autonomous regions and ethnic groups affects civil war risk (Juon & Bochsler 2023, *The Wrong Place at the Wrong Time?*).
+
+In a study published in the *American Political Science Review*, the SAU database supported my operationalization of territorial autonomy as a time-varying treatment, enabling a causal investigation of how autonomy shapes the composition of political violence — finding that autonomy reduces civil war onset but can simultaneously enhance the risk of communal conflict, implying a trade-off rather than a straightforward pacifying effect (Juon 2025, *Territorial Autonomy and the Trade-off between Civil and Communal Violence*).
+
+In my recent work on unfulfilled autonomy aspirations, the SAU database's boundary polygons are used to document the geographic distribution of regions where ethnic groups have sought and failed to obtain territorial recognition, tracing these aspirations across decades of constitutional change (Juon 2026, *Unfulfilled Aspirations*, Journal of Conflict Resolution).
+
+## Connections to the CPSD and SEAMS
+
+Beyond its primary use in research on territorial autonomy, the SAU database provides the spatial infrastructure for two of my other original datasets.
+
+**CPSD — territorial power-sharing.** The Constitutional Power-Sharing Dataset (CPSD) includes several categories of territorial institutions — territorially divided upper houses, regional rotation rules, vote spread requirements for executive elections — that cannot be directly assigned to ethnic groups, which are the dataset's primary unit of measurement - without knowing the spatial overlap between targeted administrative units and ethnic group settlement areas. To compute this overlap, I intersected SAU database polygons with the ethnic settlement polygons from Geo-EPR, assigning each territorial institution to the ethnic groups whose settlement areas overlap the relevant administrative unit, weighted by the degree of spatial coincidence. The SAU database's longitudinal consistency is essential here: without historically accurate boundary polygons, the spatial intersection would misassign institutions to groups for the years before modern boundary files are available.
+
+**SEAMS — survey respondent attribution.** The Standardized Ethnically Attributed Mass Surveys (SEAMS) collects public opinion data from hundreds of cross-national surveys, each of which reports respondents' locations at varying levels of geographic precision. In many surveys, location is identified only by the first-order administrative unit or by a survey-specific regional grouping that does not map directly onto standard boundaries. To link survey respondents to their ethnic group, I used the SAU database polygons as spatial anchors, intersecting them with Geo-EPR settlement areas and — where available — sub-unit-level demographic information to estimate the ethnic composition of each survey region. This procedure enables an informed rather than uniform attribution of respondents to ethnic groups, making use of fine-grained geographic information that a country-level or uniform-distribution attribution would discard.

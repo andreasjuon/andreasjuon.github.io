@@ -11,5 +11,46 @@ externalLinks:
 relatedItems: ["power-sharing","juon_bochsler2020_populist_effect","bochsler_juon2021_power_sharing_quality"]
 ---
 
-During my time as research associate at the Centre for Democracy Studies Aarau, I coordinated a team-based effort to update the Democracy Barometer, which comprises more than 100 indicators for 70 countries. My responsibilities also included data validation and management of the project webpage. The data can be found [here (external link)](https://democracybarometer.org/archive/).
+The Democracy Barometer is a collaborative data project measuring the quality of democracy across established democracies worldwide. I contributed to this project as a research associate at the Centre for Democracy Studies Aarau (ZDA), where I coordinated the 2017 team-based update of the dataset (version 6), covering 70 democracies through 2016. My responsibilities included coordinating the data collection team, data validation, and management of the project webpage.
+
+## Motivation and design philosophy
+
+Most widely used democracy indices — including V-Dem, Freedom House, the Polity Project, and the Bertelsmann Transformation Index — rely primarily or exclusively on expert judgments to assess the state of democracy in a given country. Many of these projects also provide a unified measure of the level of democracy or binary measures distinguishing democracies from autocracies. The Democracy Barometer departs from this prevailing approach in two ways: 
+* First, it measures the *quality* of democracy rather than providing a binary democracy/autocracy classification or a simple regime score. The underlying premise is that established democracies differ meaningfully in how well they realize democratic principles — not only whether they meet a minimum threshold. 
+* Second, wherever possible, the Democracy Barometer replaces or supplements expert ratings with "hard" data drawn from official statistics and representative surveys. This reduces reliance on subjective assessments whose reliability is sometimes difficult to assess, and makes the data more transparent and reproducible.
+
+A further design departure from standard measures is that the Democracy Barometer conceives of democratic quality as inherently multidimensional. Rather than collapsing democracy into a single score, it disaggregates it into nine distinct functions that can trade off against each other in different democratic models. This disaggregated structure allows researchers to study not just whether democracy is improving or declining overall, but *which dimensions* are changing, and in response to which political or institutional factors.
+
+## Measurement structure
+
+The Democracy Barometer is organized as a hierarchical concept tree, proceeding from two overarching principles of democracy down through nine functions, 18 components, 53 subcomponents, and approximately 105 indicators. Each component consists of at least one subcomponent measuring *rules in law* (formal institutional provisions) and one measuring *rules in use* (the effective practice of those institutions), ensuring that the measurement captures both institutional design and real-world implementation.
+
+<Figure src="/images/data/dq-tree.png" caption="Figure 1. Concept tree of the Democracy Barometer, from overarching principles to individual indicators." align="center" width={700} />
+
+All indicators are standardized using a best/worst-practice approach benchmarked against a set of 30 established blueprint democracies, identified on the basis of Freedom House and Polity IV scores between 1995 and 2005. This scaling strategy means that the Democracy Barometer does not impose fixed theoretical thresholds for maximum democratic quality, but instead calibrates each indicator against what the best- and worst-performing established democracies actually achieve. Countries performing below the worst blueprint-country benchmark receive values below 0; those outperforming the best receive values above 100. Aggregation from indicators upward through the concept tree uses a procedure that rewards balance across dimensions and penalizes disequilibrium — reflecting the theoretical assumption that the best democracies are those realizing all functions at a high and roughly equal level.
+
+## The nine democratic functions
+
+The Democracy Barometer's nine functions cover the full range of democratic quality from liberal rights and institutional design to citizen participation and government performance:
+
+* **Individual liberties** [INDLIB]: constitutional and effective protection of physical integrity, freedom of conduct of life, and property rights.
+* **Rule of law** [RULEOFLAW]: equality before the law, judicial independence and impartiality, and public confidence in courts and police.
+* **Public sphere** [PUBLIC]: freedom of association (economic and civic organizations) and freedom of opinion (media independence and press freedom).
+* **Competition** [COMPET]: competitiveness of elections (vulnerability of incumbents, seat concentration) and openness of electoral entry (legal hurdles, access to resources).
+* **Mutual constraints of constitutional powers** [MUTUCONS]: checks between executive, legislative, and judicial powers, as well as vertical checks through federalism and bicameralism.
+* **Governmental capability** [GOVCAP]: government resources and stability, conditions for effective policy implementation, absence of anti-government interference, and central bank independence.
+* **Transparency** [TRANSPAR]: disclosure of party financing, absence of corruption, freedom of information, and openness of political communication.
+* **Participation** [PARTICIP]: equality of electoral and non-electoral participation across social groups, and effectiveness of both institutionalized and non-institutionalized forms of participation.
+* **Representation** [REPRES]: substantive representation (institutional possibilities for preference inclusion, direct democracy provisions, proportionality of electoral outcomes) and descriptive representation (women in parliament and government, access to power for minorities).
+
+## Coverage
+
+The version of Democracy Barometer whose update I coordinated covers 70 countries: 30 blueprint democracies used for scaling, and 40 additional established and semi-established democracies across Europe, Latin America, Asia, and Africa. The unit of observation is the country-year; the temporal coverage runs from 1990 to 2016. Only country-years meeting minimum democratic standards (Polity2 ≥ 6 or Freedom House ≤ 3.5) are included in the aggregated quality scores, ensuring that the index captures variation within the democratic space rather than the democracy/autocracy divide.
+
+## Use in published research
+
+The Democracy Barometer's disaggregated structure makes it particularly well suited for research questions that require distinguishing among multiple dimensions of democratic quality rather than treating democracy as a single outcome. In joint work with Daniel Bochsler, I have used the dataset in three ways. 
+* First, to descriptively track democratic trajectories across all 19 Central and Eastern European democracies between 1990 and 2016, examining how populist parties in government, EU accession dynamics, and the 2008 financial crisis affected specific democratic functions — and finding that, while real democratic erosion occurred in specific countries and dimensions, the alarming narratives centered on Hungary and Poland overstated the breadth of the regional crisis (Bochsler & Juon 2020, *Authoritarian Footprints in Central and Eastern Europe*). 
+* Second, to disentangle the contradictory consequences of populism for democratic quality across a wider international sample, finding that populists impair rule of law and transparency while left-wing populists can improve representation and participation — effects that vary substantially by ideology and government access and affect different aspects of democracy in heterogeneous ways (Juon & Bochsler 2020, *Hurricane or Fresh Breeze?*). 
+* Third, to assess how constitutional power-sharing affects multiple distinct dimensions of democratic quality simultaneously, matching the Democracy Barometer with the Constitutional Power-Sharing Dataset to show that power-sharing's democratic record is more nuanced than either its proponents or critics typically claim (Bochsler & Juon 2021, *Power-Sharing and the Quality of Democracy*).
 
