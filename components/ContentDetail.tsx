@@ -1,4 +1,4 @@
-import { getContentBySlug, getRelatedItems, getPublicationsByProject, resolvePreviewImage, typeToUrlSegment, typeToListPath } from '@/lib/content'
+import { getContentBySlug, getRelatedItems, getPublicationsByProject, resolveHeaderImage, typeToUrlSegment, typeToListPath } from '@/lib/content'
 import { ContentType, PublicationItem } from '@/lib/types'
 import { getExternalLinkIcon } from '@/lib/icons'
 import Image from 'next/image'
@@ -28,7 +28,7 @@ export default function ContentDetail({ type, slug }: ContentDetailProps) {
   }
 
   const relatedItems = getRelatedItems(item)
-  const headerImage = resolvePreviewImage(item)
+  const headerImage = resolveHeaderImage(item)
 
   return (
     <>

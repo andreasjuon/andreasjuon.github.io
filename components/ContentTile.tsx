@@ -26,7 +26,7 @@ export default function ContentTile({ item, aspectRatio = '16/9' }: ContentTileP
         >
           <div className="relative w-full" style={{ aspectRatio }}>
             <Image
-              src={item.previewImage}
+              src={item.previewImage ?? item.headerImage ?? ''}
               alt={item.title}
               fill
               className="object-cover group-hover:scale-105 transition-transform duration-300"

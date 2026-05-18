@@ -42,6 +42,11 @@ function validateFrontmatter(data: Record<string, unknown>, filePath: string): v
       `Invalid frontmatter in ${filePath}:\n${errors}`
     )
   }
+  if (!data.headerImage && !data.previewImage) {
+    throw new Error(
+      `Invalid frontmatter in ${filePath}:\n  - At least one of "headerImage" or "previewImage" is required`
+    )
+  }
 }
 
 // Build-time cache: content is read from disk once and reused across
@@ -212,30 +217,54 @@ export function getAffiliations(): AffiliationsFrontmatter & {
 
 const PLACEHOLDER_PREFIX = '/images/placeholders/'
 
-/**
- * Returns the best preview image for an item:
- * custom image > related publication image > related project image > placeholder.
- */
-export function resolvePreviewImage(item: ContentItem): string {
-  if (!item.previewImage.startsWith(PLACEHOLDER_PREFIX)) return item.previewImage
-  if (!item.relatedItems || item.relatedItems.length === 0) return item.previewImage
+function isRealImage(img: string | undefined): img is string {
+  return !!img && !img.startsWith(PLACEHOLDER_PREFIX)
+}
+
+function resolveViaRelated(item: ContentItem, preferField: 'preview' | 'header'): string | null {
+  if (!item.relatedItems || item.relatedItems.length === 0) return null
 
   const allItems = getAllContentItems()
   const related = item.relatedItems
     .map((slug) => allItems.find((i) => i.slug === slug))
     .filter((i): i is ContentItem => i !== undefined)
 
-  const relatedPub = related.find(
-    (i) => i.type === 'publication' && !i.previewImage.startsWith(PLACEHOLDER_PREFIX)
-  )
-  if (relatedPub) return relatedPub.previewImage
+  const pick = (i: ContentItem) =>
+    preferField === 'preview'
+      ? (isRealImage(i.previewImage) ? i.previewImage : isRealImage(i.headerImage) ? i.headerImage : null)
+      : (isRealImage(i.headerImage) ? i.headerImage : isRealImage(i.previewImage) ? i.previewImage : null)
 
-  const relatedProject = related.find(
-    (i) => i.type === 'project' && !i.previewImage.startsWith(PLACEHOLDER_PREFIX)
-  )
-  if (relatedProject) return relatedProject.previewImage
+  const relatedPub = related.find((i) => i.type === 'publication' && pick(i))
+  if (relatedPub) return pick(relatedPub)!
 
-  return item.previewImage
+  const relatedProject = related.find((i) => i.type === 'project' && pick(i))
+  if (relatedProject) return pick(relatedProject)!
+
+  return null
+}
+
+/**
+ * Returns the best preview image for an item (used in cards/tiles):
+ * previewImage > headerImage > related publication > related project > placeholder.
+ */
+export function resolvePreviewImage(item: ContentItem): string {
+  if (isRealImage(item.previewImage)) return item.previewImage
+  if (isRealImage(item.headerImage)) return item.headerImage
+  const fromRelated = resolveViaRelated(item, 'preview')
+  if (fromRelated) return fromRelated
+  return item.previewImage ?? item.headerImage ?? `${PLACEHOLDER_PREFIX}project.svg`
+}
+
+/**
+ * Returns the best header image for an item (used full-width on detail pages):
+ * headerImage > previewImage > related publication > related project > placeholder.
+ */
+export function resolveHeaderImage(item: ContentItem): string {
+  if (isRealImage(item.headerImage)) return item.headerImage
+  if (isRealImage(item.previewImage)) return item.previewImage
+  const fromRelated = resolveViaRelated(item, 'header')
+  if (fromRelated) return fromRelated
+  return item.headerImage ?? item.previewImage ?? `${PLACEHOLDER_PREFIX}project.svg`
 }
 
 /** Publications linked to a specific project (by relatedProjects or relatedItems for backward compat) */

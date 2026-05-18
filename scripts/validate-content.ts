@@ -88,15 +88,26 @@ function validateFile(filePath: string, type: ContentType) {
     }
   }
 
-  // 3. Validate previewImage path exists in public/
+  // 3. Validate headerImage and previewImage paths exist in public/
+  const headerImage = data.headerImage as string | undefined
   const previewImage = data.previewImage as string | undefined
-  if (previewImage && previewImage.startsWith('/')) {
-    const imagePath = path.join(PUBLIC_DIR, previewImage)
-    if (!fs.existsSync(imagePath)) {
-      errors.push({
-        file: relativePath,
-        message: `previewImage "${previewImage}" not found in public/`,
-      })
+
+  if (!headerImage && !previewImage) {
+    errors.push({
+      file: relativePath,
+      message: 'At least one of "headerImage" or "previewImage" is required',
+    })
+  }
+
+  for (const [field, img] of [['headerImage', headerImage], ['previewImage', previewImage]] as const) {
+    if (img && img.startsWith('/')) {
+      const imagePath = path.join(PUBLIC_DIR, img)
+      if (!fs.existsSync(imagePath)) {
+        errors.push({
+          file: relativePath,
+          message: `${field} "${img}" not found in public/`,
+        })
+      }
     }
   }
 

@@ -35,7 +35,7 @@ export default function PublicationListItem({ item }: PublicationListItemProps) 
         <div className="bg-white rounded-lg p-4 shadow-card hover:shadow-card-hover transition-shadow duration-300 border-l-4 border-l-purple-500 flex gap-4">
           <div className="relative w-32 h-24 md:w-40 md:h-28 flex-shrink-0 rounded overflow-hidden">
             <Image
-              src={item.previewImage}
+              src={item.previewImage ?? item.headerImage ?? ''}
               alt={item.title}
               fill
               className="object-cover"

@@ -28,7 +28,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     openGraph: {
       title: item.title,
       description: item.summary,
-      images: item.previewImage ? [item.previewImage] : [],
+      images: (item.previewImage ?? item.headerImage) ? [(item.previewImage ?? item.headerImage)!] : [],
     },
   }
 }

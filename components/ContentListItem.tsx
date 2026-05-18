@@ -19,7 +19,7 @@ export default function ContentListItem({ item, imagePosition = 'left' }: Conten
   const imageSection = (
     <div className="relative w-32 h-24 md:w-40 md:h-28 flex-shrink-0 rounded overflow-hidden">
       <Image
-        src={item.previewImage}
+        src={item.previewImage ?? item.headerImage ?? ''}
         alt={item.title}
         fill
         className="object-cover"
