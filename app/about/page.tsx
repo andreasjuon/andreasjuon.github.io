@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import Image from 'next/image'
+import Link from 'next/link'
 import PageContainer from '@/components/PageContainer'
 import { CONTENT_FRAME_CLASS, INTRO_FRAME_CLASS, SECTION_GAP } from '@/lib/layout'
 import ContentCarousel from '@/components/ContentCarousel'
@@ -9,12 +10,13 @@ import AffiliationPanel from '@/components/AffiliationPanel'
 export const metadata: Metadata = {
   title: "About - Andreas Juon",
   description:
-    "About Andreas Juon - Researcher in Conflict & Security | Data Analytics | Consulting",
+    "About Andreas Juon - Researcher in Conflict & Security | Data Analytics | Public Engagement",
 };
 
 export default function AboutPage() {
   const projectItems = getContentByType('project')
   const datasetItems = getContentByType('dataset')
+  const talkItems = getContentByType('talk')
   const { employment, education, minYear, maxYear } = getAffiliations()
 
   return (
@@ -138,7 +140,7 @@ export default function AboutPage() {
           />
         </div>
 
-        {/* Three-column section: Research, Data & Methods, Consulting */}
+        {/* Three-column section: Research, Data & Methods, Public Engagement */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-2 mt-2">
           {/* Research block */}
           <div className={INTRO_FRAME_CLASS}>
@@ -169,6 +171,12 @@ export default function AboutPage() {
               nationalist ideologies travel across borders, and how identity
               politics interacts with geopolitical competition.
             </p>
+            <a
+              href="/research/"
+              className="inline-flex items-center rounded-md bg-gray-900 px-4 py-2 text-sm font-medium text-white hover:bg-gray-700 transition-colors"
+            >
+              View all research
+            </a>
           </div>
 
           {/* Data and Methods block */}
@@ -200,44 +208,45 @@ export default function AboutPage() {
               my work in data engineering, large-scale data integration, and
               applied statistical modeling.
             </p>
+            <a
+              href="/data/"
+              className="inline-flex items-center rounded-md bg-gray-900 px-4 py-2 text-sm font-medium text-white hover:bg-gray-700 transition-colors"
+            >
+              View all datasets and data infrastructure
+            </a>
           </div>
 
-          {/* Consulting block */}
+          {/* Public Engagement block */}
           <div className={`${INTRO_FRAME_CLASS} md:col-span-2 lg:col-span-1`}>
             <h2 className="text-2xl font-semibold text-gray-900 mb-4">
-              Consulting
+              Public Engagement
             </h2>
-            <div className="mb-4">
-              {/* Match ContentTile total height: 16/9 image area + 15rem text block */}
-              <div className="relative w-full h-[27rem]">
-                <Image
-                  src="/images/talks/talk_barcelona_crop.jpeg"
-                  alt="Symbolic consulting illustration"
-                  fill
-                  className="object-cover rounded-md"
-                  sizes="(max-width: 768px) 100vw, 33vw"
-                />
+            {talkItems.length > 0 && (
+              <div className="mb-4">
+                <ContentCarousel items={talkItems} itemsPerView={1} />
               </div>
-            </div>
+            )}
             <p className="text-lg text-gray-700 mb-4">
-              Beyond academia, I work with public-sector organizations, NGOs,
-              and private firms that need rigorous analysis of political and
-              security risk. My consulting focuses on:
+              I engage with researchers and the broader public through invited
+              talks, conference presentations, media appearances, teaching, and
+              organized workshops. Invited talks have brought me to policy
+              audiences at the Austrian Parliament and the United Nations–ETH
+              Forum, and to academic settings at ETH Zurich, the University of
+              Fribourg, and ECMI.
             </p>
-            <ul className="list-disc pl-6 text-lg text-gray-700 mb-4">
-              <li>Political risk assessment and forecasting</li>
-              <li>Conflict and instability analysis</li>
-              <li>Institutional design and peacebuilding evaluation</li>
-              <li>Regional autonomy and center–periphery relations</li>
-              <li>Nationalism and geopolitical risk</li>
-            </ul>
-            <p className="text-lg text-gray-700">
-              My work combines substantive expertise in conflict and nationalism
-              with advanced data analysis and modeling skills, allowing
-              organizations to make evidence-based decisions in complex
-              political environments. If you are interested in collaboration,
-              consulting, or invited talks, please get in touch.
+            <p className="text-lg text-gray-700 mb-4">
+              Media contributions include radio interviews (SRF 4), magazine
+              features (ETH Globe, Swissinfo), and policy blogs. I have taught
+              at ETH Zurich, University College London, the University of
+              Zurich, and the University of Fribourg, and have co-organized
+              workshops for doctoral researchers.
             </p>
+            <a
+              href="/engagement/"
+              className="inline-flex items-center rounded-md bg-gray-900 px-4 py-2 text-sm font-medium text-white hover:bg-gray-700 transition-colors"
+            >
+              View all public engagement
+            </a>
           </div>
         </div>
       </div>

@@ -9,7 +9,7 @@ const navItems = [
   { href: '/', label: 'Home', icon: FiHome, iconOnly: true },
   { href: '/research', label: 'Research', icon: FiBook },
   { href: '/data', label: 'Data', icon: FiDatabase },
-  { href: '/consulting', label: 'Consulting', icon: FiBriefcase },
+  // { href: '/consulting', label: 'Consulting', icon: FiBriefcase }, // STANDBY: re-add when consulting page goes live
   { href: '/tools', label: 'Tools', icon: FiTool },
   { href: '/engagement', label: 'Public Engagement', icon: FiMic },
   { href: '/contact', label: 'Contact', icon: FiMail, iconOnly: true },
