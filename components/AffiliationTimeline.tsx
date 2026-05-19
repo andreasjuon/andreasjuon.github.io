@@ -110,6 +110,8 @@ export default function AffiliationTimeline({
   minYearOverride,
   compact = false,
 }: AffiliationTimelineProps) {
+  const [activeTooltip, setActiveTooltip] = useState<ActiveTooltip | null>(null)
+
   if (items.length === 0) return null
 
   const assignments = assignLanes(items, maxYear)
@@ -182,8 +184,6 @@ export default function AffiliationTimeline({
   const chartShiftY = minLabelY < topSafePadding ? topSafePadding - minLabelY : 0
   // Keep only enough space for ticks/year labels under the axis.
   const height = baseY + chartShiftY + (compact ? 24 : 28)
-
-  const [activeTooltip, setActiveTooltip] = useState<ActiveTooltip | null>(null)
 
   return (
     <div className="w-full overflow-visible">
@@ -331,7 +331,6 @@ export default function AffiliationTimeline({
                 >
                   <div
                     className="flex h-full w-full items-center rounded-md bg-transparent px-2 py-1"
-                    xmlns="http://www.w3.org/1999/xhtml"
                   >
                     {hasLogo && (
                       <img
