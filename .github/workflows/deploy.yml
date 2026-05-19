@@ -40,8 +40,8 @@ jobs:
         run: npm run build
         env:
           NEXT_PUBLIC_SITE_URL: ${{ secrets.NEXT_PUBLIC_SITE_URL || 'https://andreasjuon.com' }}
-          # Required for project site (username.github.io/REPO/); empty for user site (username.github.io)
-          GITHUB_PAGES_BASE_PATH: ${{ github.event.repository.name == format('{0}.github.io', github.event.repository.owner.login) && '' || format('/{0}', github.event.repository.name) }}
+          # User-site repo (andreasjuon.github.io) deploys at the domain root.
+          GITHUB_PAGES_BASE_PATH: ''
       
       - name: Setup Pages
         uses: actions/configure-pages@v4
