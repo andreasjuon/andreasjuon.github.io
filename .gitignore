@@ -18,14 +18,23 @@
 # misc
 .DS_Store
 *.pem
+*.key
+*.p12
+*.pfx
+*.crt
+*.jsonl
 
 # debug
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+*.log
 
 # local env files
 .env*.local
+.env
+.env.*
+!.env.example
 
 # vercel
 .vercel
@@ -41,5 +50,22 @@ CLAUDE.md
 CONTEXT.md
 docs/
 .claude/
+.cursor/
 .agents/
 prompt.docx
+
+# local migration/review artifacts
+humanizer_review.html
+/scripts/wp-export/
+/_private_assets/
+
+# accidental Finder/back-up copies
+/content/* copy/
+
+# local authoring drafts
+/content/**/_TEMPLATE.mdx
+/content/**/old/
+
+# source assets should stay outside public/ so they cannot be deployed
+/public/**/*.psd
+/public/images/**/*.pdf
