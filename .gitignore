@@ -75,7 +75,6 @@ humanizer_review.html
 /public/images/**/*.jpg
 /public/images/**/*.jpeg
 /public/images/**/*.png
-/public/images/**/*.gif
 /public/images/**/*.bmp
 /public/images/**/*.tiff
 /public/images/**/*.tif
