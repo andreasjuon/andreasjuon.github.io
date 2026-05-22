@@ -3,10 +3,11 @@
 import { useState } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { FiHome, FiBook, FiDatabase, FiBriefcase, FiTool, FiMic, FiMail, FiMenu, FiX } from 'react-icons/fi'
+import { FiHome, FiUser, FiBook, FiDatabase, FiBriefcase, FiTool, FiMic, FiMail, FiMenu, FiX } from 'react-icons/fi'
 
 const navItems = [
   { href: '/', label: 'Home', icon: FiHome, iconOnly: true },
+  { href: '/about', label: 'About Me', icon: FiUser },
   { href: '/research', label: 'Research', icon: FiBook },
   { href: '/data', label: 'Data', icon: FiDatabase },
   // { href: '/consulting', label: 'Consulting', icon: FiBriefcase }, // STANDBY: re-add when consulting page goes live
@@ -27,7 +28,7 @@ export default function Navbar() {
           {navItems.map((item) => {
             const Icon = item.icon
             const isActive = pathname === item.href || (item.href !== '/' && pathname?.startsWith(item.href))
-            
+
             return (
               <Link
                 key={item.href}
@@ -64,7 +65,7 @@ export default function Navbar() {
               {navItems.map((item) => {
                 const Icon = item.icon
                 const isActive = pathname === item.href || (item.href !== '/' && pathname?.startsWith(item.href))
-                
+
                 return (
                   <Link
                     key={item.href}

@@ -10,29 +10,26 @@ interface ContentCarouselProps {
   itemsPerView?: number
 }
 
+const SWIPE_THRESHOLD = 50
+
 export default function ContentCarousel({ items, itemsPerView }: ContentCarouselProps) {
   const [startIndex, setStartIndex] = useState(0)
   const [visibleItems, setVisibleItems] = useState(3)
+  const [touchStartX, setTouchStartX] = useState<number | null>(null)
+  const [dragStartX, setDragStartX] = useState<number | null>(null)
 
   useEffect(() => {
-    // Calculate responsive items per view based on screen size
     const updateVisibleItems = () => {
       if (itemsPerView !== undefined) {
-        // If itemsPerView is explicitly provided, use it
         setVisibleItems(itemsPerView)
         return
       }
-      
-      // Otherwise, calculate based on viewport width
       const width = window.innerWidth
       if (width < 768) {
-        // Mobile: 1 item
         setVisibleItems(1)
       } else if (width < 1024) {
-        // Tablet: 2 items
         setVisibleItems(2)
       } else {
-        // Desktop: 3 items
         setVisibleItems(3)
       }
     }
@@ -49,12 +46,27 @@ export default function ContentCarousel({ items, itemsPerView }: ContentCarousel
 
   const maxIndex = Math.max(0, items.length - visibleItems)
 
-  const goPrevious = () => {
-    setStartIndex((prev) => Math.max(0, prev - 1))
+  const goPrevious = () => setStartIndex((prev) => Math.max(0, prev - 1))
+  const goNext = () => setStartIndex((prev) => Math.min(maxIndex, prev + 1))
+
+  const handleTouchStart = (e: React.TouchEvent) => setTouchStartX(e.touches[0].clientX)
+  const handleTouchEnd = (e: React.TouchEvent) => {
+    if (touchStartX === null) return
+    const delta = e.changedTouches[0].clientX - touchStartX
+    if (Math.abs(delta) > SWIPE_THRESHOLD) {
+      delta < 0 ? goNext() : goPrevious()
+    }
+    setTouchStartX(null)
   }
 
-  const goNext = () => {
-    setStartIndex((prev) => Math.min(maxIndex, prev + 1))
+  const handleMouseDown = (e: React.MouseEvent) => setDragStartX(e.clientX)
+  const handleMouseUp = (e: React.MouseEvent) => {
+    if (dragStartX === null) return
+    const delta = e.clientX - dragStartX
+    if (Math.abs(delta) > SWIPE_THRESHOLD) {
+      delta < 0 ? goNext() : goPrevious()
+    }
+    setDragStartX(null)
   }
 
   const visibleItemsList = items.slice(startIndex, startIndex + visibleItems)
@@ -83,11 +95,14 @@ export default function ContentCarousel({ items, itemsPerView }: ContentCarousel
           </button>
         </>
       )}
-      <div 
-        className="grid gap-6 px-4 md:px-0"
-        style={{
-          gridTemplateColumns: `repeat(${visibleItems}, minmax(0, 1fr))`
-        }}
+      <div
+        className="grid gap-6 px-4 md:px-0 select-none cursor-grab active:cursor-grabbing"
+        style={{ gridTemplateColumns: `repeat(${visibleItems}, minmax(0, 1fr))` }}
+        onTouchStart={handleTouchStart}
+        onTouchEnd={handleTouchEnd}
+        onMouseDown={handleMouseDown}
+        onMouseUp={handleMouseUp}
+        onMouseLeave={() => setDragStartX(null)}
       >
         {visibleItemsList.map((item) => (
           <ContentTile key={`${item.type}-${item.slug}`} item={item} />
