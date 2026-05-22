@@ -70,3 +70,12 @@ humanizer_review.html
 # source assets should stay outside public/ so they cannot be deployed
 /public/**/*.psd
 /public/images/**/*.pdf
+
+# original raster images — keep on disk for reference but ship only the converted .webp versions
+/public/images/**/*.jpg
+/public/images/**/*.jpeg
+/public/images/**/*.png
+/public/images/**/*.gif
+/public/images/**/*.bmp
+/public/images/**/*.tiff
+/public/images/**/*.tif

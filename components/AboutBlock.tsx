@@ -9,7 +9,7 @@ interface AboutBlockProps {
 }
 
 export default function AboutBlock({
-  portraitImage = "/images/portrait.jpg",
+  portraitImage = "/images/portrait.webp",
   name = "Dr. Andreas Juon",
   positioning = "Researcher in Conflict & Security | Data Analytics | Consulting",
   description,

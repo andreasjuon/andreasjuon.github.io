@@ -28,7 +28,7 @@ export default function AboutPage() {
             <div className="flex justify-center md:justify-start">
               <div className="relative w-56 h-56 md:w-64 md:h-64 rounded-full overflow-hidden">
                 <Image
-                  src="/images/portrait2.jpeg"
+                  src="/images/portrait2.webp"
                   alt="Portrait of Andreas Juon"
                   fill
                   className="object-cover object-[50%_25%] transform scale-110 translate-y-2 -translate-x-2"
