@@ -44,6 +44,9 @@ jobs:
           NEXT_PUBLIC_SITE_URL: ${{ secrets.NEXT_PUBLIC_SITE_URL || 'https://andreasjuon.com' }}
           # User-site repo (andreasjuon.github.io) deploys at the domain root.
           GITHUB_PAGES_BASE_PATH: ''
+          # RAG chatbot backend (FastAPI on Railway), baked into the static export at
+          # build time. If unset, ChatWidget renders nothing. Backend: juon_research_rag repo.
+          NEXT_PUBLIC_CHATBOT_API_URL: ${{ secrets.NEXT_PUBLIC_CHATBOT_API_URL || 'https://web-production-78be1.up.railway.app' }}
       
       - name: Setup Pages
         uses: actions/configure-pages@v4
