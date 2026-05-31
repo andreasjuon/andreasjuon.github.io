@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
+import ChatWidget from "@/components/ChatWidget";
 
 export const metadata: Metadata = {
   title: "Andreas Juon - Academic Researcher | Data Scientist | Advisory Services",
@@ -19,6 +20,7 @@ export default function RootLayout({
         <div className="pt-4 md:pt-6">
           {children}
         </div>
+        <ChatWidget />
       </body>
     </html>
   );
