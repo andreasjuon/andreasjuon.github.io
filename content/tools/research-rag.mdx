@@ -1,0 +1,40 @@
+---
+title: "Research RAG"
+type: tool
+toolType: implementation
+summary: "A retrieval-augmented generation (RAG) chatbot embedded on this website that answers visitor questions about my research, publications, and datasets, based on information from my actual publications and research materials."
+tags: ["RAG", "LLM", "vector database", "FastAPI", "Python"]
+previewImage: "/images/tools/research-rag.svg"
+date: "2026-05-01"
+relatedItems: []
+---
+
+# Research Chatbot
+
+**A scoped, evidence-grounded assistant for navigating my academic work. Try it out yourself, by clicking on the chat icon in the bottom right corner!**
+
+The chatbot embedded on this website lets visitors ask questions about my research and get answers drawn directly from my publications, datasets, and research statements - information that is not part of general model knowledge. It is a full-stack RAG implementation that I built from scratch.
+
+## How it works
+
+A Chroma vector database holds chunked and embedded versions of all my major academic outputs (publications, dataset documentation, research statement). When a visitor submits a question, the backend retrieves the most relevant chunks from this vector database via semantic search, injects them into a structured system prompt, and calls an OpenAI completion model via API to generate a response grounded in my own writing and information tailored to my research. The system prompt enforces strict scope: the assistant declines questions unrelated to my academic work and is forbidden from inventing publications or results not present in the retrieved context.
+
+Multi-turn retrieval is handled by concatenating prior user messages with new questions before retrieving relevant context, improving relevance in follow-up exchanges without requiring a separate query-rewriting step.
+
+## Stack
+
+- **Embeddings:** OpenAI `text-embedding-3-large`
+- **Vector store:** Chroma, self-hosted on a Railway persistent volume
+- **Completion model:** `gpt-4.1-nano` (fast, cheap, sufficient for bounded Q&A)
+- **Backend:** FastAPI, deployed on Railway
+- **Frontend:** Next.js chat widget calling the Railway service via a scoped API URL
+
+## Cost and abuse controls
+
+The backend uses a layered defence, including per-IP rate limiting via slowapi, a global in-memory daily cap, and hard input and output character limits.
+
+Retrieval runs against the self-hosted Chroma vector database, so **retrieval costs are negligible per query**. Spend per question is one embedding call plus one completion, which runs cheap on current models.
+
+## What I built and learned
+
+This implementation covers the full RAG pipeline: corpus preparation and chunking of my research output, embedding and vector DB seeding of the resulting chunks, retrieval with conversation history, prompt design for a constrained research assistant, and production deployment with cost controls. The main challenge was keeping the assistant reliably on-topic, with the system prompt going through several iterations before it consistently declined unrelated questions without being unhelpfully terse for legitimate queries.

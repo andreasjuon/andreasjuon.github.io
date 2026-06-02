@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react'
 import Link from 'next/link'
-import { FiMessageSquare, FiX, FiSend } from 'react-icons/fi'
+import { FiX, FiSend } from 'react-icons/fi'
 
 /**
  * Floating RAG chatbot widget. Talks to the FastAPI backend (hosted on Railway)
@@ -59,18 +59,97 @@ const GREETING: Message = {
     "Hi! I can answer questions about Andreas Juon's research, publications, datasets, and methods. What would you like to know?",
 }
 
+const SEEN_KEY = 'chatWidgetSeen'
+
+function ScholarBotIcon() {
+  return (
+    <svg
+      aria-hidden="true"
+      className="h-9 w-9"
+      viewBox="0 0 48 48"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M18 28c-4.5.4-8 2.7-9.5 6.2"
+        stroke="currentColor"
+        strokeWidth="2.5"
+        strokeLinecap="round"
+      />
+      <path
+        d="M30 28c4.5.4 8 2.7 9.5 6.2"
+        stroke="currentColor"
+        strokeWidth="2.5"
+        strokeLinecap="round"
+      />
+      <rect
+        x="15"
+        y="8"
+        width="18"
+        height="16"
+        rx="5"
+        stroke="currentColor"
+        strokeWidth="2.5"
+      />
+      <path d="M24 5v3" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" />
+      <circle cx="24" cy="4.75" r="1.75" stroke="currentColor" strokeWidth="2" />
+      <path d="M12 16h3M33 16h3" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" />
+      <circle cx="20.5" cy="15.5" r="2.5" stroke="currentColor" strokeWidth="2" />
+      <circle cx="27.5" cy="15.5" r="2.5" stroke="currentColor" strokeWidth="2" />
+      <path d="M23 19.5h2" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+      <path
+        d="M16 36c3.8 0 6.2.9 8 2.5V31c-1.8-1.5-4.4-2.5-8-2.5h-3v7.5h3Z"
+        stroke="currentColor"
+        strokeWidth="2.5"
+        strokeLinejoin="round"
+      />
+      <path
+        d="M32 36c-3.8 0-6.2.9-8 2.5V31c1.8-1.5 4.4-2.5 8-2.5h3v7.5h-3Z"
+        stroke="currentColor"
+        strokeWidth="2.5"
+        strokeLinejoin="round"
+      />
+      <path d="M24 38.5v2" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" />
+      <path d="M20 27.5h8" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" />
+      <path
+        d="M20 33.5 24 29l4 4.5M24 29v-2.5"
+        stroke="#3182bd"
+        strokeWidth="2.25"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <circle cx="24" cy="29" r="1.75" fill="#3182bd" />
+    </svg>
+  )
+}
+
 export default function ChatWidget() {
   const [open, setOpen] = useState(false)
   const [messages, setMessages] = useState<Message[]>([GREETING])
   const [input, setInput] = useState('')
   const [loading, setLoading] = useState(false)
+  const [showAttention, setShowAttention] = useState(false)
   const scrollRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     scrollRef.current?.scrollTo({ top: scrollRef.current.scrollHeight, behavior: 'smooth' })
   }, [messages, loading])
 
+  // One-time attention cue: show ping + tooltip for 5s on first visit
+  useEffect(() => {
+    if (typeof window === 'undefined') return
+    if (localStorage.getItem(SEEN_KEY)) return
+    setShowAttention(true)
+    const timer = setTimeout(() => setShowAttention(false), 5000)
+    return () => clearTimeout(timer)
+  }, [])
+
   if (!API_URL) return null
+
+  function dismiss() {
+    setShowAttention(false)
+    if (typeof window !== 'undefined') localStorage.setItem(SEEN_KEY, '1')
+  }
 
   async function send() {
     const question = input.trim()
@@ -120,14 +199,29 @@ export default function ChatWidget() {
 
   return (
     <>
-      {/* Launcher */}
-      <button
-        onClick={() => setOpen((o) => !o)}
-        aria-label={open ? 'Close chat' : 'Ask about my research'}
-        className="fixed bottom-5 right-5 z-50 flex h-14 w-14 items-center justify-center rounded-full bg-primary-dark text-white shadow-card-hover transition hover:scale-105"
-      >
-        {open ? <FiX size={22} /> : <FiMessageSquare size={22} />}
-      </button>
+      {/* Launcher + attention cue */}
+      <div className="fixed bottom-5 right-5 z-50">
+        {/* Tooltip */}
+        {showAttention && !open && (
+          <div className="absolute bottom-16 right-0 whitespace-nowrap rounded-lg bg-primary-dark px-3 py-2 text-xs text-white shadow-card-hover animate-fade-in-up pointer-events-none">
+            Ask about my research
+            <span className="absolute -bottom-1.5 right-5 h-3 w-3 rotate-45 bg-primary-dark" />
+          </div>
+        )}
+
+        {/* Ping ring (renders only during attention window) */}
+        {showAttention && !open && (
+          <span className="absolute inset-0 rounded-full bg-primary-dark opacity-40 animate-ping" />
+        )}
+
+        <button
+          onClick={() => { setOpen((o) => !o); dismiss() }}
+          aria-label={open ? 'Close chat' : 'Ask about my research'}
+          className="relative flex h-14 w-14 items-center justify-center rounded-full bg-primary-dark text-white shadow-card-hover transition hover:scale-105"
+        >
+          {open ? <FiX size={22} /> : <ScholarBotIcon />}
+        </button>
+      </div>
 
       {/* Panel */}
       {open && (

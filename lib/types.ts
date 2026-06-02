@@ -17,6 +17,10 @@ export type ExternalLinks = z.infer<typeof ExternalLinksSchema>
 export const PublicationTypeSchema = z.enum(['book', 'peer-reviewed', 'book-chapter', 'in-progress'])
 export type PublicationType = z.infer<typeof PublicationTypeSchema>
 
+/** Tool type for grouping on Tools page */
+export const ToolTypeSchema = z.enum(['platform', 'implementation'])
+export type ToolType = z.infer<typeof ToolTypeSchema>
+
 /** Publication status when not yet published */
 export const PublicationStatusSchema = z.enum([
   "R&R",
@@ -85,6 +89,8 @@ export const ContentFrontmatterSchema = z.object({
   relatedItems: z.array(z.string()).optional(),
   subtype: z.string().optional(),
   featured: z.number().optional(),
+  // Tool-specific optional fields
+  toolType: ToolTypeSchema.optional(),
   // Publication-specific optional fields
   publicationType: PublicationTypeSchema.optional(),
   authors: z.array(z.string()).optional(),
