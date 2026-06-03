@@ -23,7 +23,7 @@ export default function ToolsPage() {
 
         <div className={`${INTRO_FRAME_CLASS} ${SECTION_GAP}`}>
           <p className="text-lg text-gray-700">
-            Tools I have built for researchers, practitioners, and myself, ranging from full-scale platforms for political risk assessment and academic career development to smaller technical implementations in LLM and applied data science.
+            I build tools for researchers, practitioners, and myself, ranging from full-scale platforms for political risk assessment and academic career development to smaller technical implementations in LLM and applied data science.
           </p>
         </div>
 
