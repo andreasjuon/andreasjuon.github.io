@@ -12,15 +12,19 @@ featured: 10
 
 # Research Chatbot
 
-**A scoped, evidence-grounded assistant for navigating my academic work. Try it out yourself, by clicking on the chat icon in the bottom right corner!**
+**A  chatbot powered by generative AI that allows other researchers and the public to chat with my research. Try it out yourself, by clicking on the chat icon in the bottom right corner!**
 
-The chatbot embedded on this website lets visitors ask questions about my research and get answers drawn directly from my publications, datasets, and research statements - information that is not part of general model knowledge. It is a full-stack RAG implementation that I built from scratch.
+The chatbot embedded on this website lets visitors ask questions about my research and get answers drawn directly from my publications, datasets, and research statements - information that is not part of the general knowledge of pretrained large language models. It is a full-stack retrieval augmented generation (RAG) implementation that I built from scratch.
 
 ## How it works
 
-A Chroma vector database holds chunked and embedded versions of all my major academic outputs (publications, dataset documentation, research statement). When a visitor submits a question, the backend retrieves the most relevant chunks from this vector database via semantic search, injects them into a structured system prompt, and calls an OpenAI completion model via API to generate a response grounded in my own writing and information tailored to my research. The system prompt enforces strict scope: the assistant declines questions unrelated to my academic work and is forbidden from inventing publications or results not present in the retrieved context.
+<Figure src="/images/tools/research_rag_dimensions.webp" caption="Text chunks drawn from my research documents, vectorized using OpenAI `text-embedding-3-large`, and visualized in simplified two-dimensional space obtained via t-SNE. Blue dots are chunks related to my work on power-sharing, green dots are chunks belonging to my research on regional autonomy, and red dots are part of my ongoing work on illiberal ideologies, including dominant nationalism." align="right" width={500} />
 
-Multi-turn retrieval is handled by concatenating prior user messages with new questions before retrieving relevant context, improving relevance in follow-up exchanges without requiring a separate query-rewriting step.
+A Chroma vector database holds chunked and embedded versions of all my major academic outputs, including publications, dataset documentation, and research statement. Figure 1 visualizes all of the text chunks that are part of this database in simplified two-dimensional space, obtained via t-SNE (t-distributed Stochastic Neighbor Embedding). As is evident, this representation divides my work into three clear clusters that closely correspond to my research projects: power-sharing (visualized in blue), regional autonomy (green), and illiberal ideologies (red).
+
+When a visitor submits a question, the backend retrieves the most relevant chunks from this vector database via semantic search. It then injects the text belonging to the closest matches into a structured system prompt, and calls an OpenAI chat completion model via API to generate a response that is directly informed by my own writing and information tailored to my research. The system prompt has safeguards, leading the the chatbot to decline questions unrelated to my academic work and preventing it from inventing publications or results not present in the retrieved context.
+
+Multi-turn retrieval over successive chat messages is handled by concatenating prior user messages with new questions before retrieving relevant context, improving relevance in follow-up exchanges without requiring a separate query-rewriting step.
 
 ## Stack
 
@@ -32,10 +36,8 @@ Multi-turn retrieval is handled by concatenating prior user messages with new qu
 
 ## Cost and abuse controls
 
-The backend uses a layered defence, including per-IP rate limiting via slowapi, a global in-memory daily cap, and hard input and output character limits.
-
-Retrieval runs against the self-hosted Chroma vector database, so **retrieval costs are negligible per query**. Spend per question is one embedding call plus one completion, which runs cheap on current models.
+The backend uses a layered defence, including per-IP rate limiting via slowapi, a global in-memory daily cap, and hard input and output character limits. Moreover, retrieval runs against the self-hosted Chroma vector database, so **retrieval costs are negligible per query**. Spend per question is one embedding call plus one completion, which runs cost-effectively on current models.
 
 ## What I built and learned
 
-This implementation covers the full RAG pipeline: corpus preparation and chunking of my research output, embedding and vector DB seeding of the resulting chunks, retrieval with conversation history, prompt design for a constrained research assistant, and production deployment with cost controls. The main challenge was keeping the assistant reliably on-topic, with the system prompt going through several iterations before it consistently declined unrelated questions without being unhelpfully terse for legitimate queries.
+This implementation covers the full RAG pipeline: text corpus preparation and chunking of my research output, embedding and vector database seeding of the resulting chunks, design of a retrieval system with conversation history, prompt design for a constrained research assistant, and production deployment with cost controls. One of the main non-technical challenges was keeping the assistant reliably on-topic, with the system prompt going through several iterations before it consistently declined unrelated questions without being unhelpfully terse for legitimate queries.
