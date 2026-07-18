@@ -7,7 +7,7 @@ headerImage: "/images/publications/cederman_etal_empire_strikes_back/dhostmie_di
 previewImage: "/images/publications/cederman_etal_empire_strikes_back/dhostmie_did2s_hypo2_europe.webp"
 date: "2026"
 publicationType: in-progress
-status: "under-review"
+status: "in-preparation"
 authors: ["Lars-Erik Cederman", "Luc Girardin","Andreas Juon"]
 relatedProjects: ["dominant_nationalism"]
 relatedItems: ["dominant_nationalism","epr"]
