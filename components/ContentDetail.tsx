@@ -108,6 +108,9 @@ export default function ContentDetail({ type, slug }: ContentDetailProps) {
                 } else if (pub.volume || pub.number) {
                   journalInfo = [pub.volume, pub.number ? `(${pub.number})` : null].filter(Boolean).join(' ')
                 }
+                if (journalInfo && pub.pages) {
+                  journalInfo += `${pub.volume || pub.number ? ':' : ','} ${pub.pages}`
+                }
               }
               return pub.authors?.length || yearOrStatus ? (
                 <>
@@ -172,7 +175,7 @@ export default function ContentDetail({ type, slug }: ContentDetailProps) {
                 : []
             if (links.length === 0) return null
             const isPublication = type === 'publication'
-            const linkLabels: Record<string, string> = { description: 'Description', pdf: 'PDF', supplementary: 'Supplementary', doi: 'DOI' }
+            const linkLabels: Record<string, string> = { description: 'Description', preprint: 'Preprint', pdf: 'PDF', supplementary: 'Supplementary', doi: 'DOI' }
             return (
               <div className={`flex flex-wrap gap-4 ${isPublication ? 'pt-2' : ''}`}>
                 {links.map(([key, url]) => {

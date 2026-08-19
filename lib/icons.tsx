@@ -9,6 +9,7 @@ export function getExternalLinkIcon(linkType: string, className = 'w-5 h-5') {
       return <FiGithub className={className} />
     case 'paper':
     case 'pdf':
+    case 'preprint':
       return <FiFileText className={className} />
     case 'data':
       return <FiDatabase className={className} />

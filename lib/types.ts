@@ -35,9 +35,12 @@ export type PublicationStatus = z.infer<typeof PublicationStatusSchema>
 /** Publication-specific links (subtle, accessible) */
 export const PublicationLinksSchema = z.object({
   description: z.string().optional(),
+  /** Self-hosted accepted manuscript / preprint, e.g. "/preprints/{slug}.pdf" */
+  preprint: z.string().optional(),
   pdf: z.string().optional(),
   supplementary: z.string().optional(),
   doi: z.string().optional(),
+  code: z.string().optional(),
 }).optional()
 
 export type PublicationLinks = z.infer<typeof PublicationLinksSchema>
@@ -99,6 +102,8 @@ export const ContentFrontmatterSchema = z.object({
   status: PublicationStatusSchema.optional(),
   volume: z.string().optional(),
   number: z.string().optional(),
+  /** Page range in the print issue, e.g. "359-386" */
+  pages: z.string().optional(),
   editors: z.array(z.string()).optional(),
   relatedProjects: z.array(z.string()).optional(),
   relatedDatasets: z.array(z.string()).optional(),
@@ -128,6 +133,7 @@ export type PublicationItem = ContentItem & {
   journal?: string;
   volume?: string;
   number?: string;
+  pages?: string;
   editors?: string[];
   relatedProjects?: string[];
   relatedDatasets?: string[];
