@@ -1,4 +1,4 @@
-import { FiExternalLink, FiGithub, FiFileText, FiDatabase, FiGlobe, FiLink } from 'react-icons/fi'
+import { FiExternalLink, FiGithub, FiFileText, FiDatabase, FiGlobe, FiLink, FiVideo } from 'react-icons/fi'
 
 /**
  * Returns the appropriate icon component for a given external link type.
@@ -17,6 +17,8 @@ export function getExternalLinkIcon(linkType: string, className = 'w-5 h-5') {
     case 'website':
     case 'description':
       return <FiGlobe className={className} />
+    case 'video':
+      return <FiVideo className={className} />
     case 'doi':
     case 'supplementary':
       return <FiLink className={className} />

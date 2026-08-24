@@ -9,6 +9,7 @@ export const ExternalLinksSchema = z.object({
   data: z.string().optional(),
   demo: z.string().optional(),
   website: z.string().optional(),
+  video: z.string().optional(),
 }).optional()
 
 export type ExternalLinks = z.infer<typeof ExternalLinksSchema>
