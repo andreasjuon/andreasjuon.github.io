@@ -203,8 +203,8 @@ export default function AboutPage() {
               using large-N observational data, including fixed-effects designs,
               instrumental variables, and staggered difference-in-differences. I
               complement these approaches with survey analysis and case-based
-              process tracing. Alongside my PhD in political science, I hold a
-              second master’s degree in analytics/data science, which supports
+              process tracing. Alongside my PhD in political science, I am pursuing a
+              second master’s degree in analytics/data science (expected completion: 2027), which supports
               my work in data engineering, large-scale data integration, and
               applied statistical modeling.
             </p>
